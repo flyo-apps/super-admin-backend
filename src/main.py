@@ -3,6 +3,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from orders.routers import (
+	coupons
+)
 
 from items.routers import (
     shipping_data
@@ -76,7 +79,8 @@ app.add_event_handler("shutdown", close_mongo_connection)
 # ITEMS ROUTERS
 app.include_router(shipping_data.router, tags=["Shipping Data"])
 
-
+# ORDERS ROUTERS
+app.include_router(coupons.router, tags=["Coupons"])
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

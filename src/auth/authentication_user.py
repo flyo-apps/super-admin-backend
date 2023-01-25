@@ -2,11 +2,10 @@ import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import (
     OAuth2PasswordBearer,
-    OAuth2PasswordRequestForm,
     SecurityScopes,
 )
 from users.crud.users import MongoDBUserDatabase
-from users.models.users import UserInModel, UserModel
+from users.models.users import UserInModel
 from jwt import PyJWTError
 from pydantic import ValidationError
 

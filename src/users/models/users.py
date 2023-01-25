@@ -1,7 +1,5 @@
 from datetime import datetime
-from enum import Enum
 from typing import List, Optional, TypeVar
-
 from db.mongo.mongo_model import OID, MongoModel
 from master.models.master import BaseFullNameModel
 from pydantic import BaseModel, Field, EmailStr
@@ -39,12 +37,6 @@ class UserInModel(UserModel):
     created_on: Optional[datetime] = None
     disabled_on: Optional[datetime] = None
     deleted_on: Optional[datetime] = None
-    
-
-
-class Config:
-    orm_mode = True
-
 
 UD = TypeVar("UD", bound=UserInModel)
 
