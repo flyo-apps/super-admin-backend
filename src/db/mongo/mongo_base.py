@@ -1,6 +1,5 @@
 import logging
 from typing import List
-import json
 from fastapi import HTTPException
 from master.utils.constants import REQUEST_LIMIT, REQUEST_SKIP_DEFAULT
 from .mongodb import get_collection

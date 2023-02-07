@@ -10,7 +10,6 @@ from jwt import PyJWTError
 from pydantic import ValidationError
 
 from .jwt_handler import TokenData, pwd_context
-from auth.jwt_handler import Token, create_access_token
 import os
 
 ALGORITHM = "HS256"

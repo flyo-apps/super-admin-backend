@@ -11,7 +11,6 @@ from items.routers import (
     shipping_data
 )
 
-from auth.authentication_user import get_current_active_user
 from db.mongo.mongo_adaptor import (
     close_mongo_connection,
     connect_to_mongo
