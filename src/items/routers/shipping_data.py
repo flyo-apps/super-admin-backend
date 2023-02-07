@@ -39,7 +39,7 @@ async def delete_shipping_detail(
 
 @router.get(
     "/v1/get_shipping_detail",
-    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_shipping_detail(
     code: constr(to_lower=True),
