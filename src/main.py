@@ -11,7 +11,8 @@ from items.routers import (
     shipping_data,
     products,
     product_variants,
-    product_reviews
+    product_reviews,
+    blogs
 )
 
 from db.mongo.mongo_adaptor import (
@@ -83,6 +84,7 @@ app.include_router(shipping_data.router, tags=["Shipping Data"])
 app.include_router(products.router, tags=["Products"])
 app.include_router(product_variants.router, tags=["Product Variants"])
 app.include_router(product_reviews.router, tags=["Product Reviews"])
+app.include_router(blogs.router, tags=["Blogs"])
 
 # ORDERS ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
