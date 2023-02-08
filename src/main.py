@@ -8,7 +8,9 @@ from orders.routers import (
 )
 
 from items.routers import (
-    shipping_data
+    shipping_data,
+    products,
+    product_variants
 )
 
 from db.mongo.mongo_adaptor import (
@@ -77,6 +79,8 @@ app.add_event_handler("shutdown", close_mongo_connection)
 
 # ITEMS ROUTERS
 app.include_router(shipping_data.router, tags=["Shipping Data"])
+app.include_router(products.router, tags=["Products"])
+app.include_router(product_variants.router, tags=["Product Variants"])
 
 # ORDERS ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])

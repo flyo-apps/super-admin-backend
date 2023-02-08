@@ -36,7 +36,7 @@ class ProductsCollection:
             where_clause = f"""(sku_code='{products_details.sku_code}')"""
             existing_product = self.model.get_one(db=db, where_clause=where_clause)
             if existing_product is not None:
-                return
+                return {"internal_response_code": 1, "message": f"""product with sku_code {products_details.sku_code} exists"""}
 
             product_create = ProductCreateModel(**products_details.dict())
             created_product = self.model.create(db=db, obj_in=product_create)
