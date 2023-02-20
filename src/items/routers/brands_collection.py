@@ -68,6 +68,7 @@ async def get_brand_collection_by_code(
     except Exception:
         raise HTTPException(status_code=500, detail="Something went wrong")
 
+#not used in admin panel scripts
 @router.post(
     "/v1/get_all_brands_collection",
     dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
