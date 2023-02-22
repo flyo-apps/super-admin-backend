@@ -20,6 +20,10 @@ from db.mongo.mongo_adaptor import (
     connect_to_mongo
 )
 
+from auth.router import (
+    auth
+)
+
 app = FastAPI()
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
@@ -78,6 +82,9 @@ app.add_middleware(
 
 app.add_event_handler("startup", connect_to_mongo)
 app.add_event_handler("shutdown", close_mongo_connection)
+
+# AUTH ROUTERS
+app.include_router(auth.router, tags=["Auth"])
 
 # ITEMS ROUTERS
 app.include_router(shipping_data.router, tags=["Shipping Data"])
