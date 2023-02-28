@@ -17,8 +17,7 @@ from ..schemas.product_collection import (
 )
 from warehouse.schemas.inventory import InventorySchema
 from ..schemas.products import ProductsSchema
-from ..utils.constants import PRODUCT_COLLECTION_RETURN, PRODUCT_LIMIT
-from ..utils.constants import PRODUCT_ITEMS_COL_RETURN
+from ..utils.constants import PRODUCT_COLLECTION_RETURN, PRODUCT_LIMIT, PRODUCT_ITEMS_COL_RETURN
 
 class ProductCollectionCollection:
     def __init__(self):

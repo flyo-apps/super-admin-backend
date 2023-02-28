@@ -12,7 +12,11 @@ from items.routers import (
     products,
     product_variants,
     product_reviews,
-    blogs
+    blogs,
+    categories,
+    homepage,
+    brands,
+    brands_collection,
 )
 
 from db.mongo.mongo_adaptor import (
@@ -92,6 +96,10 @@ app.include_router(products.router, tags=["Products"])
 app.include_router(product_variants.router, tags=["Product Variants"])
 app.include_router(product_reviews.router, tags=["Product Reviews"])
 app.include_router(blogs.router, tags=["Blogs"])
+app.include_router(categories.router, tags=["Categories"])
+app.include_router(brands.router, tags=["Brands"])
+app.include_router(brands_collection.router, tags=["Brands Collection"])
+app.include_router(homepage.router, tags=["Homepage"])
 
 # ORDERS ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
