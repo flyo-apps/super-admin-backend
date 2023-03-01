@@ -50,12 +50,12 @@ async def login_user(
 @router.post(
     "/v1/refresh_token", 
     response_model=Token,
-    dependencies=[Security(get_current_active_user, scopes=["customer:write"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
 )
 async def refresh_token(
     current_user: UserModel = Security(
         get_current_active_user,
-        scopes=["customer:write"],
+        scopes=["admin:write"],
     ),
 ):
     try:

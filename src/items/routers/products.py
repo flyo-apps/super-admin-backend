@@ -176,7 +176,7 @@ async def update_product_seo(
 
 @router.post(
     "/v1/products/get_product_by_sku_code",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_product_by_sku_code(
     sku_code: str,

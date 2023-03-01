@@ -56,7 +56,7 @@ async def delete_brands_collection(
 
 @router.post(
     "/v1/get_brands_collection",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_brand_collection_by_code(
     code: str,
@@ -71,7 +71,7 @@ async def get_brand_collection_by_code(
 #not used in admin panel scripts
 @router.post(
     "/v1/get_all_brands_collection",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_all_brand_collection(
     db: Session = Depends(auroradb.get_db),

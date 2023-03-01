@@ -52,7 +52,7 @@ async def get_blog_by_code(
 
 @router.get(
     "/v1/blog/get_blogs_by_blog_code_and_name",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_blog_by_blog_code_and_name(
     blog_code: str,
@@ -83,7 +83,7 @@ async def update_blog_media(
 
 @router.get(
     "/v1/blog/get_blogs",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_blog_by_code(
     page_number: int,

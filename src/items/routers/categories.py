@@ -48,7 +48,7 @@ async def update_category(
 
 @router.get(
     "/v1/get_all_categories",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_all_categories(
     db: Session = Depends(auroradb.get_db),
@@ -64,7 +64,7 @@ async def get_all_categories(
 
 @router.get(
     "/v1/get_all_categories_lists",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_all_categories_lists(
     parent_category: Optional[str] = None
@@ -80,7 +80,7 @@ async def get_all_categories_lists(
 
 @router.get(
     "/v1/get_category",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_category(
     category_code: str,
@@ -129,7 +129,7 @@ async def disable_category(
 
 @router.get(
     "/v1/search_category",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def search_category(
     search_keyword: str,
