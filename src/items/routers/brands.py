@@ -44,7 +44,7 @@ async def update_brand(
 
 @router.get(
     "/v1/get_all_brands",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_all_brands(
     db: Session = Depends(auroradb.get_db),
@@ -60,7 +60,7 @@ async def get_all_brands(
 
 @router.post(
     "/v1/get_brand",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_brand(
     code: str,
@@ -77,7 +77,7 @@ async def get_brand(
 #not used in scripts
 # @router.get(
 #     "/v1/get_brand_with_names_by_title",
-#     dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+#     dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 # )
 # async def get_brand_with_names_by_title(
 #     brand_title: str
@@ -93,7 +93,7 @@ async def get_brand(
 
 # @router.get(
 #     "/v1/brand_details_lists",
-#     dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+#     dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 # )
 # async def brand_details_lists(
 #     brand_id: str
@@ -333,7 +333,7 @@ async def delete_brand(
 
 # @router.get(
 #     "/v1/search_brand",
-#     dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+#     dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 # )
 # async def search_brand(
 #     search_keyword: str,

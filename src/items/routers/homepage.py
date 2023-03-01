@@ -40,7 +40,7 @@ async def create_homepage_component(
 
 @router.get(
     "/v1/get_homepage",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_homepage(
     homepage_name: Optional[str] = "Primary",
@@ -49,7 +49,7 @@ async def get_homepage(
     db: Session = Depends(auroradb.get_db),
     current_user: UserModel = Security(
         get_current_active_user,
-        scopes=["guest:read"],
+        scopes=["admin:read"],
     )
 ):
     try:
@@ -73,7 +73,7 @@ async def get_homepage(
 
 @router.get(
     "/v1/get_homepage_component_by_component_title",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_homepage_component_by_component_title(
     component_title: str,
@@ -87,7 +87,7 @@ async def get_homepage_component_by_component_title(
 
 @router.get(
     "/v1/get_homepage_component_by_component_title_and_code",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_homepage_component_by_component_title_and_code(
     component_title: str,
@@ -103,7 +103,7 @@ async def get_homepage_component_by_component_title_and_code(
 
 @router.get(
     "/v1/get_homepage_component_by_element_type",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_homepage_component_by_element_type(
     homepage_name: str,
