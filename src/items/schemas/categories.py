@@ -1,0 +1,21 @@
+from db.aurora.aurora_base import Base
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, ARRAY, JSON, DATETIME
+
+
+class CategoriesSchema(Base):
+    __tablename__ = "categories"
+
+    code = Column(String, primary_key=True, index=True)
+    category_name = Column(String, index=True)
+    sort_priority = Column(Integer)
+    category_logo = Column(String)
+    category_banner = Column(String)
+    description = Column(String)
+    description_images = Column(ARRAY(String))
+    items_list = Column(ARRAY(JSON))
+    search_tags = Column(ARRAY(String))
+    created_at = Column(DATETIME)
+    is_updated = Column(Boolean)
+    updated_at = Column(DATETIME)
+    is_deleted = Column(Boolean)
+    deleted_at = Column(DATETIME)

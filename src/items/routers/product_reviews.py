@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.post(
     "/v1/add_review",
-    dependencies=[Security(get_current_active_user, scopes=["guest:write"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
 )
 async def add_review(
     review: ProductReviewCreateBaseModel,
@@ -24,7 +24,7 @@ async def add_review(
 
 @router.put(
     "/v1/update_review",
-    dependencies=[Security(get_current_active_user, scopes=["guest:write"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
 )
 async def update_review(
     review: ProductReviewUpdateBaseModel,
@@ -66,7 +66,7 @@ async def get_review_by_code(
 
 @router.get(
     "/v1/get_reviews_by_sku_code",
-    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
 )
 async def get_reviews_by_sku_code(
     sku_code: str,
