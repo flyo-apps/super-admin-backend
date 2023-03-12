@@ -28,6 +28,11 @@ from auth.router import (
     auth
 )
 
+from extras.routers import (
+    asset_metadata
+)
+
+
 app = FastAPI()
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
@@ -103,6 +108,9 @@ app.include_router(homepage.router, tags=["Homepage"])
 
 # ORDERS ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
+
+# ASSET METADATA ROUTES
+app.include_router(asset_metadata.router, tags=["Asset Metadata"])
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
