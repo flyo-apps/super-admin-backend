@@ -101,7 +101,7 @@ app.include_router(brands.router, tags=["Brands"])
 app.include_router(brands_collection.router, tags=["Brands Collection"])
 app.include_router(homepage.router, tags=["Homepage"])
 
-# ORDERS ROUTERS
+# Coupons ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
 
 if __name__ == "__main__":

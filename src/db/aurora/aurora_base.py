@@ -2,8 +2,8 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from sqlalchemy import text, func, update
-from sqlalchemy.orm import Session, load_only, Load
+from sqlalchemy import text
+from sqlalchemy.orm import Session, Load, load_only, strategy_options
 from db.aurora.aurora_model import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -49,7 +49,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             if column_load == None:
                 return db.query(self.model).filter(text(where_clause)).order_by(text(sorting_method)).offset(skip).limit(limit).all()
             else:
-                return db.query(self.model).options(load_only(*column_load)).filter(text(where_clause)).order_by(text(sorting_method)).offset(skip).limit(limit).all()
+                # column_names = [col.key for col in column_load]
+                return db.query(self.model).options(strategy_options.load_only(*column_load)).filter(text(where_clause)).order_by(text(sorting_method)).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
