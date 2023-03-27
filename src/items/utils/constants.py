@@ -1,10 +1,10 @@
 from ..schemas.homepage import HomepageSchema
 from ..schemas.categories import CategoriesSchema
 from ..schemas.brands_collection import BrandsCollectionSchema
-
+from ..schemas.brands import BrandsSchema
 
 BRANDS_COL_RETURN = [
-    "code", "brand_name", "sort_priority", "logo_image", "banner_image", "description", "description_images", "items_list", "search_tags"
+    BrandsSchema.code, BrandsSchema.brand_name, BrandsSchema.sort_priority, BrandsSchema.logo_image, BrandsSchema.banner_image, BrandsSchema.description, BrandsSchema.description_images, BrandsSchema.items_list, BrandsSchema.search_tags
 ]
 
 BRANDS_COLLECTION_COL_RETURN = [
