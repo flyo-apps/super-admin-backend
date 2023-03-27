@@ -49,7 +49,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             if column_load == None:
                 return db.query(self.model).filter(text(where_clause)).order_by(text(sorting_method)).offset(skip).limit(limit).all()
             else:
-                return db.query(self.model).options(strategy_options.load_only(*column_load)).filter(text(where_clause)).order_by(text(sorting_method)).offset(skip).limit(limit).all()
+                return db.query(self.model).options(load_only(*column_load)).filter(text(where_clause)).order_by(text(sorting_method)).offset(skip).limit(limit).all()
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)
