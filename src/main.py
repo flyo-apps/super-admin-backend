@@ -17,6 +17,7 @@ from items.routers import (
     homepage,
     brands,
     brands_collection,
+    usecases
 )
 
 from db.mongo.mongo_adaptor import (
@@ -27,6 +28,11 @@ from db.mongo.mongo_adaptor import (
 from auth.router import (
     auth
 )
+
+from extras.routers import (
+    asset_metadata
+)
+
 
 app = FastAPI()
 app.add_middleware(GZipMiddleware, minimum_size=1000)
@@ -100,9 +106,13 @@ app.include_router(categories.router, tags=["Categories"])
 app.include_router(brands.router, tags=["Brands"])
 app.include_router(brands_collection.router, tags=["Brands Collection"])
 app.include_router(homepage.router, tags=["Homepage"])
+app.include_router(usecases.router, tags=["Usecases"])
 
 # ORDERS ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
+
+# ASSET METADATA ROUTES
+app.include_router(asset_metadata.router, tags=["Asset Metadata"])
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

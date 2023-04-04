@@ -49,3 +49,5 @@ VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES = [
 ]
 
 PRODUCT_LIMIT = 30
+
+USECASE_COL_RETURN = ["code", "usecase_name", "sort_priority", "usecase_logo", "usecase_banner", "description", "description_images", "items_list", "search_tags"]
