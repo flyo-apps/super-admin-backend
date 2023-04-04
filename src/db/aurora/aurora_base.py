@@ -2,8 +2,8 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
-from sqlalchemy import text, func, update
-from sqlalchemy.orm import Session, load_only, Load
+from sqlalchemy import text
+from sqlalchemy.orm import Session, Load, load_only, strategy_options
 from db.aurora.aurora_model import Base
 
 ModelType = TypeVar("ModelType", bound=Base)

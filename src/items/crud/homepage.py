@@ -126,11 +126,12 @@ class HomePageCollection:
                     skip = 0
                 elif page > 1:
                     skip = (page -1)*limit
-            
+
             data = self.model.get_all(db=db, where_clause=where_clause, skip=skip, limit=limit, sorting_method=sorting_method, column_load=HOMEPAGE_COL_RETURN)
 
             return data if data else []
-        except Exception:
+        except Exception as e:
+            print(e)
             raise HTTPException(status_code=500, detail="Something went wrong")
     
     async def get_homepage_component_by_component_title(

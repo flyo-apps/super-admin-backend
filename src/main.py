@@ -108,7 +108,7 @@ app.include_router(brands_collection.router, tags=["Brands Collection"])
 app.include_router(homepage.router, tags=["Homepage"])
 app.include_router(usecases.router, tags=["Usecases"])
 
-# ORDERS ROUTERS
+# Coupons ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
 
 # ASSET METADATA ROUTES

@@ -1,11 +1,15 @@
+from ..schemas.homepage import HomepageSchema
+from ..schemas.categories import CategoriesSchema
+from ..schemas.brands_collection import BrandsCollectionSchema
+from ..schemas.brands import BrandsSchema
 
 BRANDS_COL_RETURN = [
-    "code", "brand_name", "sort_priority", "logo_image", "banner_image", "description", "description_images", "items_list", "search_tags"
+    BrandsSchema.code, BrandsSchema.brand_name, BrandsSchema.sort_priority, BrandsSchema.logo_image, BrandsSchema.banner_image, BrandsSchema.description, BrandsSchema.description_images, BrandsSchema.items_list, BrandsSchema.search_tags
 ]
 
 BRANDS_COLLECTION_COL_RETURN = [
-    "code", "brand_collection_name", "sort_priority", "brand_name", "collection_logo", "collection_banner", "description", "description_images", 
-    "items_list", "search_tags"
+    BrandsCollectionSchema.code, BrandsCollectionSchema.brand_collection_name, BrandsCollectionSchema.sort_priority, BrandsCollectionSchema.brand_name, BrandsCollectionSchema.collection_logo, BrandsCollectionSchema.collection_banner, BrandsCollectionSchema.description, BrandsCollectionSchema.description_images,
+    BrandsCollectionSchema.items_list, BrandsCollectionSchema.search_tags
 ]
 
 PRODUCT_ITEMS_COL_RETURN = [
@@ -14,7 +18,7 @@ PRODUCT_ITEMS_COL_RETURN = [
 ]
 
 CATEGORY_COL_RETURN = [
-    "code", "category_name", "sort_priority", "category_logo", "category_banner", "description", "description_images", "items_list"
+    CategoriesSchema.code, CategoriesSchema.category_name, CategoriesSchema.sort_priority, CategoriesSchema.category_logo, CategoriesSchema.category_banner, CategoriesSchema.description, CategoriesSchema.description_images, CategoriesSchema.items_list
 ]
 
 HOMEPAGE_COLLECTION_COL_RETURN = [
@@ -22,13 +26,13 @@ HOMEPAGE_COLLECTION_COL_RETURN = [
     "redirect_type", "redirect_name", "filters", "products"
 ]
 
-PRODUCT_COLLECTION_RETURN = [
-    "collection_code", "collection_name", "sort_priority", "sku_code"
-]
+# PRODUCT_COLLECTION_RETURN = [
+#     "collection_code", "collection_name", "sort_priority", "sku_code"
+# ]
 
 HOMEPAGE_COL_RETURN = [
-    "code", "homepage_name", "component_title", "component_type", "component_elements_type", "component_elements", "component_rank", "component_secondary_title", 
-    "widget_redirect_to", "component_category_link", "component_background_color", "ui_specs", "show_title", "max_visible_element", "h1_tag", "description_tag", "title_tag"
+    HomepageSchema.code, HomepageSchema.homepage_name, HomepageSchema.component_title, HomepageSchema.component_type, HomepageSchema.component_elements_type, HomepageSchema.component_elements, HomepageSchema.component_rank, HomepageSchema.component_secondary_title, 
+    HomepageSchema.widget_redirect_to, HomepageSchema.component_category_link, HomepageSchema.component_background_color, HomepageSchema.ui_specs, HomepageSchema.show_title, HomepageSchema.max_visible_element, HomepageSchema.h1_tag, HomepageSchema.description_tag, HomepageSchema.title_tag
 ]
 
 VALID_COMPONENT_TYPES = ["FWBanner", "FWImageCarousel", "FWITRCarousel", "FWITLCarousel", "BrandCard1", "BrandCard2", "CollectionCard1", "CollectionCard2", 
