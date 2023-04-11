@@ -2,6 +2,10 @@ from ..schemas.homepage import HomepageSchema
 from ..schemas.categories import CategoriesSchema
 from ..schemas.brands_collection import BrandsCollectionSchema
 from ..schemas.brands import BrandsSchema
+from ..schemas.product_collection import ProductCollectionItemsSchema
+from ..schemas.homepage_group import HomePageCollectionsSchema
+from ..schemas.products import ProductsSchema
+from ..schemas.usecases import UsecasesSchema
 
 BRANDS_COL_RETURN = [
     BrandsSchema.code, BrandsSchema.brand_name, BrandsSchema.sort_priority, BrandsSchema.logo_image, BrandsSchema.banner_image, BrandsSchema.description, BrandsSchema.description_images, BrandsSchema.items_list, BrandsSchema.search_tags
@@ -13,8 +17,8 @@ BRANDS_COLLECTION_COL_RETURN = [
 ]
 
 PRODUCT_ITEMS_COL_RETURN = [
-    'code', 'sku_code', 'media', 'discount', 'mrp', 'list_price', "brand", "product_name", "vendor_code", "product_tag", "fine_fashion_tag",
-    "viewing_or_bought", "size", "category1", "product_type1", "pickup_city", "pick_pack_time"
+    ProductsSchema.code, ProductsSchema.sku_code, ProductsSchema.media, ProductsSchema.discount, ProductsSchema.mrp, ProductsSchema.list_price, ProductsSchema.brand, ProductsSchema.product_name, ProductsSchema.vendor_code, ProductsSchema.product_tag, ProductsSchema.fine_fashion_tag,
+    ProductsSchema.viewing_or_bought, ProductsSchema.size, ProductsSchema.category1, ProductsSchema.product_type1, ProductsSchema.pickup_city, ProductsSchema.pick_pack_time
 ]
 
 CATEGORY_COL_RETURN = [
@@ -22,13 +26,13 @@ CATEGORY_COL_RETURN = [
 ]
 
 HOMEPAGE_COLLECTION_COL_RETURN = [
-    "code", "homepage_collection_name", "images", "logo_images", "tags", "collection_discount", "collection_info", "redirect_to", 
-    "redirect_type", "redirect_name", "filters", "products"
+    HomePageCollectionsSchema.code, HomePageCollectionsSchema.homepage_collection_name, HomePageCollectionsSchema.images, HomePageCollectionsSchema.logo_images, HomePageCollectionsSchema.tags, HomePageCollectionsSchema.collection_discount, HomePageCollectionsSchema.collection_info, HomePageCollectionsSchema.redirect_to,
+    HomePageCollectionsSchema.redirect_type, HomePageCollectionsSchema.redirect_name, HomePageCollectionsSchema.filters, HomePageCollectionsSchema.products
 ]
 
-# PRODUCT_COLLECTION_RETURN = [
-#     "collection_code", "collection_name", "sort_priority", "sku_code"
-# ]
+PRODUCT_COLLECTION_RETURN = [
+    ProductCollectionItemsSchema.collection_code, ProductCollectionItemsSchema.collection_name, ProductCollectionItemsSchema.sort_priority, ProductCollectionItemsSchema.sku_code
+]
 
 HOMEPAGE_COL_RETURN = [
     HomepageSchema.code, HomepageSchema.homepage_name, HomepageSchema.component_title, HomepageSchema.component_type, HomepageSchema.component_elements_type, HomepageSchema.component_elements, HomepageSchema.component_rank, HomepageSchema.component_secondary_title, 
@@ -54,4 +58,4 @@ VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES = [
 
 PRODUCT_LIMIT = 30
 
-USECASE_COL_RETURN = ["code", "usecase_name", "sort_priority", "usecase_logo", "usecase_banner", "description", "description_images", "items_list", "search_tags"]
+USECASE_COL_RETURN = [UsecasesSchema.code, UsecasesSchema.usecase_name, UsecasesSchema.sort_priority, UsecasesSchema.usecase_logo, UsecasesSchema.usecase_banner, UsecasesSchema.description, UsecasesSchema.description_images, UsecasesSchema.items_list, UsecasesSchema.search_tags]
