@@ -5,6 +5,7 @@ from ..schemas.brands import BrandsSchema
 from ..schemas.product_collection import ProductCollectionItemsSchema
 from ..schemas.homepage_group import HomePageCollectionsSchema
 from ..schemas.products import ProductsSchema
+from ..schemas.usecases import UsecasesSchema
 
 BRANDS_COL_RETURN = [
     BrandsSchema.code, BrandsSchema.brand_name, BrandsSchema.sort_priority, BrandsSchema.logo_image, BrandsSchema.banner_image, BrandsSchema.description, BrandsSchema.description_images, BrandsSchema.items_list, BrandsSchema.search_tags
@@ -57,4 +58,4 @@ VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES = [
 
 PRODUCT_LIMIT = 30
 
-USECASE_COL_RETURN = ["code", "usecase_name", "sort_priority", "usecase_logo", "usecase_banner", "description", "description_images", "items_list", "search_tags"]
+USECASE_COL_RETURN = [UsecasesSchema.code, UsecasesSchema.usecase_name, UsecasesSchema.sort_priority, UsecasesSchema.usecase_logo, UsecasesSchema.usecase_banner, UsecasesSchema.description, UsecasesSchema.description_images, UsecasesSchema.items_list, UsecasesSchema.search_tags]

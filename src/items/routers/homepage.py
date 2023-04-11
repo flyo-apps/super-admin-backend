@@ -117,7 +117,7 @@ async def get_homepage_component_by_element_type(
 
         details = await homepage_collection.get_homepage_component_by_element_type(db=db, homepage_name=homepage_name, component_elements_type=component_elements_type, limit=limit, page=page)
 
-        if len(details) < limit:
+        if details and len(details) < limit:
             internal_response_code = 1
         else:
             internal_response_code = 0
