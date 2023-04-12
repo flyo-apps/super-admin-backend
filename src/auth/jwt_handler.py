@@ -1,8 +1,9 @@
 from typing import List, Optional
-
+from datetime import datetime, timedelta
 import jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
+import os
 
 ALGORITHM = "HS256"
 
@@ -32,3 +33,13 @@ async def decode_access_token(
         return encoded_jwt
     except Exception as e:
         print(e)
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, os.environ.get("JWT_SECRET_KEY"), algorithm=ALGORITHM)
+    return encoded_jwt

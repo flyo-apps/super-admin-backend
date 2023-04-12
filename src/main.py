@@ -12,13 +12,27 @@ from items.routers import (
     products,
     product_variants,
     product_reviews,
-    blogs
+    blogs,
+    categories,
+    homepage,
+    brands,
+    brands_collection,
+    usecases
 )
 
 from db.mongo.mongo_adaptor import (
     close_mongo_connection,
     connect_to_mongo
 )
+
+from auth.router import (
+    auth
+)
+
+from extras.routers import (
+    asset_metadata
+)
+
 
 app = FastAPI()
 app.add_middleware(GZipMiddleware, minimum_size=1000)
@@ -79,15 +93,26 @@ app.add_middleware(
 app.add_event_handler("startup", connect_to_mongo)
 app.add_event_handler("shutdown", close_mongo_connection)
 
+# AUTH ROUTERS
+app.include_router(auth.router, tags=["Auth"])
+
 # ITEMS ROUTERS
 app.include_router(shipping_data.router, tags=["Shipping Data"])
 app.include_router(products.router, tags=["Products"])
 app.include_router(product_variants.router, tags=["Product Variants"])
 app.include_router(product_reviews.router, tags=["Product Reviews"])
 app.include_router(blogs.router, tags=["Blogs"])
+app.include_router(categories.router, tags=["Categories"])
+app.include_router(brands.router, tags=["Brands"])
+app.include_router(brands_collection.router, tags=["Brands Collection"])
+app.include_router(homepage.router, tags=["Homepage"])
+app.include_router(usecases.router, tags=["Usecases"])
 
-# ORDERS ROUTERS
+# Coupons ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
+
+# ASSET METADATA ROUTES
+app.include_router(asset_metadata.router, tags=["Asset Metadata"])
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
