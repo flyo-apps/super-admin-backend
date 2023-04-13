@@ -108,8 +108,9 @@ class HomePageCollection:
                 end = (page) * limit
                 data = await self.redis.lrange(homepage_name, start, end)
                 final_data = []
-                for each_data in data:
-                    final_data.append(json.loads(each_data))
+                if data:
+                    for each_data in data:
+                        final_data.append(json.loads(each_data))
                 
                 if page == 1 and len(final_data) == 0:
                     pass
