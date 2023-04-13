@@ -9,6 +9,7 @@ from ..models.coupons import (
     CouponCreateModel,
     CouponUpdateModel
 )
+from orders.crud.random_coupons import RandomCouponsCollection
 
 class CouponsCollection:
     def __init__(self):
