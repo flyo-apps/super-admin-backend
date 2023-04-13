@@ -4,6 +4,7 @@ from fastapi import HTTPException, BackgroundTasks
 from .categories import CategoriesCollection
 from .brands import BrandsCollection
 from .products import ProductsCollection
+from .stories import StoriesCollection
 import json
 from .homepage_group import HomepageGroupCollection
 from .brands_collection import BrandsCollectionCollection
@@ -259,6 +260,16 @@ class HomePageCollection:
                 component_details['collection_name'] = component_details_full.collection_name
                 component_details['collection_details'] = component_details_full.collection_details
                 component_details['collection_images'] = component_details_full.collection_images
+            elif component_elements_type == "Story":
+                component_details['code'] = component_details_full.code
+                component_details['description'] = component_details_full.description
+                component_details['story_name'] = component_details_full.story_name
+                component_details['story_image'] = component_details_full.story_image
+                component_details['redirection_type'] = component_details_full.redirection_type
+                component_details['redirection_text'] = component_details_full.redirection_text
+                component_details['redirection_value'] = component_details_full.redirection_value
+                component_details['filters'] = component_details_full.filters
+
             else:
                 component_details = component_details_full.dict()
 
@@ -302,6 +313,9 @@ class HomePageCollection:
                 component_details_full = {"images": [component_elements]}
             elif component_elements_type == "Homepage":
                 component_details_full = {"code": component_elements}
+            elif component_elements_type == "Story":
+                stories_collection = StoriesCollection()
+                component_details_full = await stories_collection.get_story_by_code(db=db, story_code=component_elements)
             else:
                 component_details_full = {}
 
