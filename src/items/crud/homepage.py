@@ -612,8 +612,7 @@ class HomePageCollection:
                 await self.refresh_homepage_redis(db=db, homepage_name=homepage_name)
 
             return  {"internal_response_code": 0,"message": "success", "data": result} if result else  {"internal_response_code": 1, "message": "failed", "data": None}
-        except Exception as e:
-            print(e)
+        except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
 
     async def add_homepage_component_item_list(
