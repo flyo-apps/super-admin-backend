@@ -94,7 +94,7 @@ class HomePageElementsUpdateModel(HomePageElementsBaseUpdateModel):
 
 
 class HomePageFilterDetails(BaseModel):
-    filters: dict
+    filters: Optional[dict] = None
     secondary_title: Optional[str] = None
     sorting_method: Optional[str] = None
     filter_type: Optional[str] = None
