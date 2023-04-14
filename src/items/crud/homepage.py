@@ -361,6 +361,9 @@ class HomePageCollection:
             elif component_elements_type == "Homepage":
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
+            elif component_elements_type == "Story":
+                component_details = [component for component in component_list if component['code'] == component_elements]
+
             return component_details[0] if component_details else None
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
@@ -609,57 +612,10 @@ class HomePageCollection:
                 await self.refresh_homepage_redis(db=db, homepage_name=homepage_name)
 
             return  {"internal_response_code": 0,"message": "success", "data": result} if result else  {"internal_response_code": 1, "message": "failed", "data": None}
-        except Exception:
+        except Exception as e:
+            print(e)
             raise HTTPException(status_code=500, detail="Something went wrong")
-    
-    # async def get_homepage_validations(
-    #     self,
-    #     user_id: str,
-    #     default_title: str,
-    #     loc: Optional[CoordinateModel] = None,
-    #     title_with_loc_cod: Optional[str] = None,
-    # ) -> any:
-    #     try:
-    #         if title_with_loc_cod != None:
-    #             loc_code = title_with_loc_cod.split("_")
-    #             if loc_code in LOC_CODES:
-    #                 return title_with_loc_cod
 
-    #         if loc != None:
-    #             stores_collection = StoresCollection()
-    #             serviceable_locations = await stores_collection.get_serviceable_location(coordinates = loc.dict())
-    #             if len(serviceable_locations) > 0:
-    #                 homepage_title = f'''{default_title}_{serviceable_locations[0]["loc_code"]}'''
-    #             else:
-    #                 homepage_title = default_title
-    #             return homepage_title
-
-    #         # Get primary address
-    #         address_collection = AddressCollection()
-    #         primary_address = await address_collection.get_primary_address(current_user_id=user_id)
-    #         if primary_address != None:
-    #             primary_address = primary_address.dict()
-    #             current_address_coordinate = CoordinateModel(
-    #                 type =  "Point",
-    #                 coordinates= primary_address["loc"]
-    #             )
-    #             stores_collection = StoresCollection()
-    #             serviceable_locations = await stores_collection.get_serviceable_location(coordinates = current_address_coordinate.dict())
-
-    #             if len(serviceable_locations) > 0:
-    #                 homepage_title = f'''{default_title}_{serviceable_locations[0]["loc_code"]}'''
-    #             else:
-    #                 homepage_title = default_title
-    #             return homepage_title
-            
-    #         else:
-    #             homepage_title = default_title
-
-    #         return homepage_title
-    #     except Exception:
-    #         raise HTTPException(status_code=500, detail="Something went wrong")
-            
-    
     async def add_homepage_component_item_list(
         self,
         db: Session,
@@ -775,6 +731,9 @@ class HomePageCollection:
 
             homepage_component_delete_dict = HomePageDeleteModel(code=homepage_code).dict()
             deleted_component = self.model.update(db=db, db_obj=existing_homepage_component, obj_in=homepage_component_delete_dict)
+
+            if deleted_component:
+                await self.refresh_homepage_redis(db=db, homepage_name=homepage_name)
 
             return {"internal_response_code": 0, "message": f"""homepage component {homepage_code}_{homepage_name} deleted"""} if deleted_component else {"internal_response_code": 1, "message": f"""failed to delete component {homepage_code}_{homepage_name}"""}
         except Exception as e:
