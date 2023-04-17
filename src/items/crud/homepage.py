@@ -106,7 +106,7 @@ class HomePageCollection:
                 if page > 1:
                     start = start +1
                 end = (page) * limit
-                data = await self.redis.lrange(homepage_name, start, end)
+                data = await self.redis.lrange(homepage_name.lower(), start, end)
                 final_data = []
                 if data:
                     for each_data in data:
@@ -117,7 +117,7 @@ class HomePageCollection:
                 else:
                     return final_data
 
-            where_clause = f"""(homepage_name = '{homepage_name}') AND (is_deleted= False)"""
+            where_clause = f"""(lower(homepage_name) = '{homepage_name.lower()}') AND (is_deleted= False)"""
             sorting_method = "component_rank"
             if limit ==  None and page == None:
                 skip = 0
@@ -173,9 +173,9 @@ class HomePageCollection:
     ) -> any:
         try:
             if code==None:
-                where_clause = f"""(homepage_name='{homepage_name}') AND (component_title='{component_title}')"""
+                where_clause = f"""(lower(homepage_name)='{homepage_name.lower()}') AND (component_title='{component_title}')"""
             else:
-                 where_clause = f"""(homepage_name='{homepage_name}' AND component_title='{component_title}') OR (code='{code}')"""
+                where_clause = f"""(lower(homepage_name)='{homepage_name.lower()}' AND component_title='{component_title}' AND code='{code}')"""
 
             details = self.model.get_one(db=db, where_clause=where_clause, column_load=HOMEPAGE_COL_RETURN)
 
@@ -194,7 +194,7 @@ class HomePageCollection:
         page: int
     ) -> any:
         try:
-            where_clause = f"""((homepage_name='{homepage_name}') AND (component_elements_type='{component_elements_type}') AND (is_deleted=False))"""
+            where_clause = f"""((lower(homepage_name)='{homepage_name.lower()}') AND (component_elements_type='{component_elements_type}') AND (is_deleted=False))"""
             sorting_method = "component_rank"
             if limit ==  None and page == None:
                 skip = 0
@@ -707,10 +707,11 @@ class HomePageCollection:
     ) -> any:
         try:
             await self.redis.delete_list(homepage_name)
+            await self.redis.delete_list(homepage_name.lower())
             homepage_data = await self.get_homepage_details(homepage_name=homepage_name, db=db, limit=500, page=1, refresh_redis=True)
 
             for component in homepage_data:
-                await self.redis.rpush(homepage_name, component.__dict__)
+                await self.redis.rpush(homepage_name.lower(), component.__dict__)
             
             return True
         except Exception:
@@ -723,7 +724,7 @@ class HomePageCollection:
         homepage_name: str,
     ) -> any:
         try:
-            where_clause = f"""code='{homepage_code}' AND homepage_name='{homepage_name}' AND is_deleted=false"""
+            where_clause = f"""code='{homepage_code}' AND lower(homepage_name)='{homepage_name.lower()}' AND is_deleted=false"""
             existing_homepage_component = self.model.get_one(db=db, where_clause=where_clause, code=homepage_code)
             if existing_homepage_component is None:
                 return {"internal_response_code": 1, "message": f"""component with code {homepage_code} and homepage name {homepage_name} not found"""}
