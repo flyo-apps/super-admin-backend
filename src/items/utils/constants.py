@@ -45,7 +45,7 @@ VALID_COMPONENT_TYPES = ["FWBanner", "FWImageCarousel", "FWITRCarousel", "FWITLC
 ]
 
 VALID_COMPONENT_ELEMENTS_TYPE = [
-    "Product", "Brand", "Category", "HomepageCollection", "BrandCollection", "Refer", "Filter", "ProductCollection", "Homepage"
+    "Product", "Brand", "Category", "HomepageCollection", "BrandCollection", "Refer", "Filter", "ProductCollection", "Homepage", "Story"
 ]
 
 VALID_ADD_TO_LIST = [
