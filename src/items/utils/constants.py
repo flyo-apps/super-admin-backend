@@ -59,3 +59,6 @@ VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES = [
 PRODUCT_LIMIT = 30
 
 USECASE_COL_RETURN = [UsecasesSchema.code, UsecasesSchema.usecase_name, UsecasesSchema.sort_priority, UsecasesSchema.usecase_logo, UsecasesSchema.usecase_banner, UsecasesSchema.description, UsecasesSchema.description_images, UsecasesSchema.items_list, UsecasesSchema.search_tags]
+
+RECENTLY_VIEWED_PRODUCT = 'RVP'
+QUICK_FILTER_MAIN_KEY = "QUICK_FILTER"
