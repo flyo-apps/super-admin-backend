@@ -1,6 +1,6 @@
 import aurora_db
 
-def create_blogs_table():
+def create_quick_filters_table():
     commands = """
         CREATE TABLE quick_filters (
             code TEXT PRIMARY KEY NOT NULL,
@@ -18,4 +18,4 @@ def create_blogs_table():
 
 
 if __name__ == '__main__':
-    create_blogs_table()
+    create_quick_filters_table()
