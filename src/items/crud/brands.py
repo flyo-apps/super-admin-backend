@@ -109,67 +109,6 @@ class BrandsCollection:
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
 
-
-    async def get_db_list_name(
-        self,
-        list_name: str
-    ) -> any:
-        try:
-            if list_name == "top_products":
-                return "top_products"
-            elif list_name == "new_products":
-                return "new_products"
-            elif list_name == "trending_products":
-                return "trending_products"
-            elif list_name == "discounted_products":
-                return "discounted_products"
-            elif list_name == "product_types":
-                return "product_types"
-            elif list_name =="subcategories":
-                return "subcategories"
-            elif list_name =="categories":
-                return "categories"
-            elif list_name == "filters":
-                return "filters"
-            elif list_name == "images":
-                return "images"
-            else:
-                return None
-
-        except Exception:
-            raise HTTPException(status_code=500, detail="Something went wrong")
-
-
-    async def get_ui_list_name(
-        self,
-        list_name: str
-    ) -> any:
-        try:
-            if list_name == "top_products":
-                return "Top Products"
-            elif list_name == "new_products":
-                return "New Products"
-            elif list_name == "trending_products":
-                return "Trending Products"
-            elif list_name == "discounted_products":
-                return "Discounted Products"
-            elif list_name == "product_types":
-                return "Product Types"
-            elif list_name =="subcategories":
-                return "Sub Categories"
-            elif list_name =="categories":
-                return "Categories"
-            elif list_name == "filters":
-                return "Filters"
-            elif list_name == "images":
-                return "brandImg"
-            else:
-                return None
-
-        except Exception:
-            raise HTTPException(status_code=500, detail="Something went wrong")
-
-
     async def get_list_item_type(
         self,
         list_name: str
@@ -216,21 +155,6 @@ class BrandsCollection:
             return {"internal_response_code": 0, "code": code, "message": "Brand deleted"} if deleted_brand else {"internal_response_code": 1, "code": code, "message": "Brand not deleted"} 
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
-
- 
-    async def search_brand(
-       self,
-       search_keyword: str,
-       db: Session
-    ) -> any:
-       try:
-            where_clause = f"""(array_to_string(search_tags, ',') ~* '{search_keyword}' or brand_name ~* '{search_keyword}') AND is_deleted=false"""
-            sorting_method = "sort_priority DESC"
-            search_data = self.model.get_all(db=db, where_clause=where_clause, column_load=BRANDS_COL_RETURN, sorting_method=sorting_method)
-            return {"internal_response_code": 0, "message": "success", "data": search_data} if search_data else {"internal_response_code": 1, "message": "success", "data": search_data}
-       except Exception:
-            raise HTTPException(status_code=500, detail="Something went wrong")
-
 
     async def create_brand_store(
        self,

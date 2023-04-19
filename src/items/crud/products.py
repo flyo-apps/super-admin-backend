@@ -4,6 +4,8 @@ from fastapi import HTTPException
 from ..utils.random_number import (
     get_random_rating
 )
+import json
+from ..utils.constants import RECENTLY_VIEWED_PRODUCT
 from ..models.products import (
     ProductDeleteModel,
     ProductUpdateDescriptionModel,
@@ -233,20 +235,40 @@ class ProductsCollection:
         self,
         sku_code: str,
         db: Session,
+        username: Optional[str] = None,
         products_mapping: Optional[bool] = False
     ) -> any:
         try:
-            where_clause = f"""(sku_code='{sku_code}' AND live=true AND is_deleted=false)"""
+            where_clause = f"""(lower(sku_code)='{sku_code.lower()}' AND live=true AND is_deleted=false)"""
             if products_mapping == False:
                 product = self.model.get_one(db=db, where_clause=where_clause)
                 return {"internal_response_code": 0, "message": "Success", "data":product} if product else {"internal_response_code": 1, "message": "Failed", "data": None}
-           
-            query = f"""select * from get_product_with_related_and_variants('{sku_code}')"""
+
+            sku_codes = await self.redis.lrange(f"""{RECENTLY_VIEWED_PRODUCT}_{username}""", 0, 9)
+            final_sku_codes = []
+            if sku_codes != None and len(sku_codes) > 0:
+                for sku_code_2 in sku_codes:
+                    if json.loads(sku_code_2) == sku_code:
+                        continue
+                    final_sku_codes.append(json.loads(sku_code_2))
+
+            if len(final_sku_codes) > 0:
+                array_val = "ARRAY[{}]".format(", ".join(["'{}'".format(x.lower()) for x in final_sku_codes]))
+            else:
+                array_val = "ARRAY['']"
+
+
+            query = f"""select * from get_product_with_related_and_variants_1('{sku_code.lower()}', ({array_val}))"""
             products = self.model.call_postgres_function(db=db, query=query)
             products_final_data = {}
             if products[0][0] == None:
                 return {"internal_response_code": 1, "message": "Failed", "data": None}
         
+            await self.redis.lrem(f"""{RECENTLY_VIEWED_PRODUCT}_{username}""", 0, sku_code.lower())
+            await self.redis.lrem(f"""{RECENTLY_VIEWED_PRODUCT}_{username}""", 0, sku_code.upper())
+            await self.redis.lpush(f"""{RECENTLY_VIEWED_PRODUCT}_{username}""", sku_code.lower())
+            await self.redis.ltrim(f"""{RECENTLY_VIEWED_PRODUCT}_{username}""", 0, 9)
+
             products_final_data["product"] = products[0][0]
             rating = await get_random_rating()
             if rating == None:
@@ -263,10 +285,20 @@ class ProductsCollection:
             metal = products_final_data["product"]["metal1"]
             if metal == None:
                 metal =  ''
+            complete_the_look_skus = products_final_data["product"]["complete_the_look_skus"]
 
-            query_similar_products = f"""select * from get_similar_products('{brand}', '{product_type}', '{metal}')"""
+            if complete_the_look_skus is not None:
+                complete_the_look_skus = [code for code in complete_the_look_skus if code != ""]
+
+            if not complete_the_look_skus:
+                array_complete_the_look_skus = "ARRAY['']"
+            else:
+                arg_string = "'" + "','".join([s.replace('"', '') for s in complete_the_look_skus]) + "'"
+                array_complete_the_look_skus = f"""ARRAY[{arg_string}]"""
+
+            query_similar_products = f"""select * from get_similar_and_more_from_brand_and_complete_the_look('{brand}', '{product_type}', '{metal}', {array_complete_the_look_skus})"""
             similar_products = self.model.call_postgres_function(db=db, query=query_similar_products)
-            
+
             products_final_data["similar_products"] = []
 
             if similar_products[0][1] != None and len(similar_products[0][1]) > 0:
@@ -290,6 +322,23 @@ class ProductsCollection:
                 }
                 products_final_data["similar_products"].append(related_product)
 
+            if similar_products[0][2] != None and len(similar_products[0][2]) > 0:
+                complete_look_products = {
+                    "pdp_title": f"""Complete The Look""",
+                    "title": f"""Complete The Look""",
+                    "products": similar_products[0][2],
+                    "filter": {}
+                }
+                products_final_data["similar_products"].append(complete_look_products)
+
+            if  products[0][3] != None and len(products[0][3]) > 0:
+                recently_viewed_products = {
+                    "pdp_title": f"""Recently Viewed""",
+                    "title": f"""Recently Viewed Products""",
+                    "products": products[0][3],
+                    "filter": {}
+                }
+                products_final_data["similar_products"].append(recently_viewed_products)
 
             product_reviews_array = products[0][2]
 
@@ -342,7 +391,7 @@ class ProductsCollection:
             
             
             return {"internal_response_code": 10, "message": "Success", "data": products_final_data} if products else {"internal_response_code": 1, "message": "Failed", "data": None}
-        except Exception as e:
+        except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
 
     async def delete_product(
