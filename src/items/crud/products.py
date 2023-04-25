@@ -22,12 +22,14 @@ from ..models.products import (
 from ..schemas.products import (
     ProductsSchema
 )
+from db.redis.redis_base import RedisBase
 from db.aurora.aurora_base import CRUDBase
 from sqlalchemy.orm import Session
 
 class ProductsCollection:
     def __init__(self):
         self.model = CRUDBase(ProductsSchema)
+        self.redis = RedisBase()
 
     async def create_product(
         self,
