@@ -19,7 +19,8 @@ from items.routers import (
     brands_collection,
     usecases,
     stories,
-    quick_filters
+    quick_filters,
+    product_collection
 )
 
 from db.mongo.mongo_adaptor import (
@@ -114,6 +115,7 @@ app.include_router(homepage.router, tags=["Homepage"])
 app.include_router(usecases.router, tags=["Usecases"])
 app.include_router(stories.router, tags=["Stories"])
 app.include_router(quick_filters.router, tags=["Quick Filters"])
+app.include_router(product_collection.router, tags=["Product Collection"])
 
 # Coupons ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
