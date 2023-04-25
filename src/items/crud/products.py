@@ -69,7 +69,7 @@ class ProductsCollection:
                     create_products_dict_list.append(create_product.dict())
                 else:
                     product_update = ProductUpdateModel(**product.dict(exclude_unset=True))
-                    update_products_dict_list.append(product_update.dict(exclude_none=True))
+                    update_products_dict_list.append(product_update.dict(exclude_none=True, exclude={'sku_code'}))
 
             res = self.model.bulk_upsert(db=db, update_vals=update_products_dict_list,insert_vals=create_products_dict_list)
             return {"internal_response_code": 0, "message": f"""products created for {len(create_products_dict_list)} codes and updated for {len(update_products_dict_list)} codes"""} if res is None else {"internal_response_code": 1, "message": f"""upsert operation failed"""}
@@ -88,7 +88,7 @@ class ProductsCollection:
             if product == None:
                 return {"internal_response_code": 1, "sku_code": product_update_details.sku_code, "message": "Product not found"}
 
-            product_update = ProductUpdateModel(**product_update_details.dict(exclude_unset=True))
+            product_update = ProductUpdateModel(**product_update_details.dict(exclude_unset=True, exclude={'sku_code'}))
             product_update.is_updated = True
             product_update.updated_at = datetime.now()
             
@@ -112,7 +112,7 @@ class ProductsCollection:
                 product_update.is_updated = True
                 product_update.updated_at = datetime.now()
 
-                update_products_dict_list.append(product_update.dict(exclude_none=True))
+                update_products_dict_list.append(product_update.dict(exclude_unset=True, exclude={'sku_code'}))
 
             result = self.model.bulk_update(db=db, update_vals=update_products_dict_list)
 
@@ -131,7 +131,7 @@ class ProductsCollection:
             if product == None:
                 return {"internal_response_code": 1, "sku_code": product_update_state_details.sku_code, "message": "Product not found"}
 
-            product_update = ProductUpdateStateModel(**product_update_state_details.dict(exclude_unset=True))
+            product_update = ProductUpdateStateModel(**product_update_state_details.dict(exclude_unset=True, exclude={'sku_code'}))
             product_update.is_updated = True
             product_update.updated_at = datetime.now()
             
@@ -156,7 +156,7 @@ class ProductsCollection:
                 product_update.is_updated = True
                 product_update.updated_at = datetime.now()
                 update_products_state_dict_list.append(
-                    product_update.dict(exclude_none=True))
+                    product_update.dict(exclude_none=True, exclude={'sku_code'}))
 
             updated_product = self.model.bulk_update(db=db, update_vals=update_products_state_dict_list)
 
@@ -175,7 +175,7 @@ class ProductsCollection:
             if product == None:
                 return {"internal_response_code": 1, "sku_code": product_update_description_details.sku_code, "message": "Product not found"}
 
-            product_update = ProductUpdateDescriptionModel(**product_update_description_details.dict(exclude_unset=True))
+            product_update = ProductUpdateDescriptionModel(**product_update_description_details.dict(exclude_unset=True, exclude={'sku_code'}))
             product_update.is_updated = True
             product_update.updated_at = datetime.now()
             if product == None:
@@ -185,7 +185,7 @@ class ProductsCollection:
             return {"internal_response_code": 0, "sku_code":  product_update.sku_code, "message": "Product Description updated"} if updated_product else {"internal_response_code": 1, "sku_code":  product_update.sku_code, "message": "Product Description not updated"}
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
-    
+
     async def bulk_update_products_desc(
         self,
         products_update_description_details: ProductUpdateDescriptionBaseModel,
@@ -200,7 +200,7 @@ class ProductsCollection:
                 product_update.is_updated = True
                 product_update.updated_at = datetime.now()
                 update_products_description_list.append(
-                    product_update.dict(exclude_none=True))
+                    product_update.dict(exclude_none=True, exclude={'sku_code'}))
 
             updated_product = self.model.bulk_update(
                 db=db, update_vals=update_products_description_list)
@@ -220,7 +220,7 @@ class ProductsCollection:
             if product == None:
                 return {"internal_response_code": 1, "sku_code": product_update_seo_details.sku_code, "message": "Product not found"}
 
-            product_update = ProductUpdateSeoModel(**product_update_seo_details.dict(exclude_unset=True))
+            product_update = ProductUpdateSeoModel(**product_update_seo_details.dict(exclude_unset=True, exclude={'sku_code'}))
             product_update.is_updated = True
             product_update.updated_at = datetime.now()
             if product == None:
