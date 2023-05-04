@@ -1,3 +1,4 @@
+from typing import List
 import json
 from db.redis.connection import get_redis_client
 
@@ -13,7 +14,6 @@ class RedisBase:
     ):
         try:
             encoded_data = json.dumps(data, default=str).encode('utf-8')
-
             hset_done = self.redis.hset(main_key, sub_key,  encoded_data)
 
             if hset_done == 0:
@@ -105,8 +105,7 @@ class RedisBase:
         try:
             encoded_data = self.redis.lrange(main_key,start, end)
             return encoded_data if encoded_data else []
-        except Exception as e:
-            print(e)
+        except Exception:
             return None
 
     async def sadd(
@@ -152,10 +151,10 @@ class RedisBase:
                 return "removed"
             else:
                 return "failed"
-
+            
         except Exception:
             return None
-
+    
     async def ltrim(
         self,
         main_key: str,
@@ -168,5 +167,53 @@ class RedisBase:
                 return "removed"
             else:
                 return "failed"
+        except Exception:
+            return None
+
+    async def hset_list_dict(
+        self,
+        main_key: str,
+        sub_key: str,
+        list_data: List[dict]
+    ):
+        try:
+            encoded_data = json.dumps(list_data, default=str).encode('utf-8')
+            sub_key_string = json.dumps(sub_key, default=str).encode('utf-8')
+
+            hset_done = self.redis.hset(main_key, sub_key_string,  encoded_data)
+
+            if hset_done == 0:
+                return "updated"
+            elif hset_done == 1:
+                return "created"
+            else:
+                return "failed"
+
+        except Exception as e:
+            print(e, "hello")
+            return None
+
+    async def hget_list_dict(
+        self,
+        main_key: str,
+        sub_key: str
+    ):
+        try:
+            sub_key_string = json.dumps(sub_key, default=str).encode('utf-8')
+            encoded_data = self.redis.hget(main_key, sub_key_string)
+            data = json.loads(encoded_data)
+            return data if encoded_data else None
+        except Exception:
+            return None
+
+    async def hdel_list_dict(
+        self,
+        main_key: str,
+        sub_key: str
+    ):
+        try:
+            sub_key_string = json.dumps(sub_key, default=str).encode('utf-8')
+            deleted = self.redis.hdel(main_key, sub_key_string)
+            return True if deleted else None
         except Exception:
             return None
