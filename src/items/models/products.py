@@ -2,6 +2,12 @@ from datetime import datetime
 from typing import List, Optional
 from pydantic import BaseModel
 
+class ProductQNAModel(BaseModel):
+    code: str
+    question: str
+    answer: str
+    created_at: Optional[str]
+
 class ProductCreateBaseModel(BaseModel):
     code : str
     sku_code : str
@@ -119,6 +125,8 @@ class ProductCreateBaseModel(BaseModel):
     title_tag: Optional[str] = None
     description_tag: Optional[str] = None
     h1_tag: Optional[str] = None
+    qnas: Optional[List[ProductQNAModel]] = None
+    complete_the_look_skus: Optional[List[str]] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -207,6 +215,8 @@ class ProductUpdateBaseModel(BaseModel):
     collection3: Optional[str] = None
     collection4: Optional[str] = None
     pick_pack_time: Optional[int] = None
+    qnas: Optional[List[ProductQNAModel]] = None
+    complete_the_look_skus: Optional[List[str]] = None
 
 
 class ProductUpdateModel(ProductUpdateBaseModel):
