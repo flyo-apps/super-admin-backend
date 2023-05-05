@@ -128,3 +128,4 @@ class ProductsSchema(Base):
     title_tag = Column(String)
     description_tag = Column(String)
     h1_tag = Column(String)
+    complete_the_look_skus = Column(ARRAY(String))
