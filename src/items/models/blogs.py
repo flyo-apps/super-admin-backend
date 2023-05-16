@@ -54,3 +54,28 @@ class BlogDeleteModel(BaseModel):
     code: str
     is_deleted: bool = True
     deleted_at: datetime = datetime.now()
+
+class NewBlogCreateBaseModel(BaseModel):
+    code: str
+    screen_filter: Optional[dict]
+    content: str
+    content_summary: Optional[str]
+    rank: Optional[int]
+
+class NewBlogCreateModel(NewBlogCreateBaseModel):
+    created_at: Optional[datetime] = datetime.now()
+    is_updated: Optional[bool] = False
+    updated_at: Optional[datetime] = None
+    is_deleted: Optional[bool] = False
+    deleted_at: Optional[datetime] = None
+
+class NewBlogUpdateBaseModel(BaseModel):
+    code: str
+    screen_filter: Optional[dict]
+    content: Optional[str]
+    content_summary: Optional[str]
+    rank: Optional[int]
+
+class NewBlogUpdateModel(NewBlogUpdateBaseModel):
+    is_updated: bool = True
+    updated_at: datetime = datetime.now()
