@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from auth.authentication_user import get_current_active_user
 from items.crud.blogs import BlogsCollection
 from items.models.blogs import BlogCreateBaseModel, BlogUpdateBaseModel
-from typing import List
+from items.models.blogs import NewBlogCreateBaseModel, NewBlogUpdateBaseModel
+from typing import List, Optional
 
 router = APIRouter()
 
@@ -108,4 +109,89 @@ async def upsert_blogs(
         blog_collection = BlogsCollection()
         return await blog_collection.upsert_multiple_blogs(blog_details=blog_details,db=db)
     except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.post(
+    "/v1/blog/create_new_blog",
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
+)
+async def create_new_blog(
+    blog: NewBlogCreateBaseModel,
+    db: Session = Depends(auroradb.get_db)
+):
+    try:
+        blog_collection = BlogsCollection()
+        return await blog_collection.create_new_blog(blog=blog,db=db)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.post(
+    "/v1/blog/get_content_for_product_listing",
+    dependencies=[Security(get_current_active_user, scopes=["admin:read"])],
+)
+async def get_content_for_product_listing(
+    screen_filter: dict,
+    db: Session = Depends(auroradb.get_db)
+):
+    try:
+        blog_collection = BlogsCollection()
+        return await blog_collection.get_content_for_product_listing(screen_filter=screen_filter,db=db)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.post(
+    "/v1/blog/update_new_blog",
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
+)
+async def update_new_blog(
+    blog: NewBlogUpdateBaseModel,
+    db: Session = Depends(auroradb.get_db)
+):
+    try:
+        blog_collection = BlogsCollection()
+        return await blog_collection.update_new_blog(blog=blog,db=db)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.delete(
+    "/v1/blog/delete_new_blog",
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
+)
+async def delete_new_blog(
+    code: str,
+    db: Session = Depends(auroradb.get_db)
+):
+    try:
+        blog_collection = BlogsCollection()
+        return await blog_collection.delete_new_blog(code=code,db=db)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.get(
+    "/v1/blog/get_new_blog",
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
+)
+async def get_new_blog(
+    code: str,
+    db: Session = Depends(auroradb.get_db)
+):
+    try:
+        blog_collection = BlogsCollection()
+        return await blog_collection.get_new_blog(code=code,db=db)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
+
+@router.get(
+    "/v1/blog/get_new_blogs",
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
+)
+async def get_new_blogs(
+    db: Session = Depends(auroradb.get_db),
+    page_number: Optional[int] = 1,
+):
+    try:
+        blog_collection = BlogsCollection()
+        return await blog_collection.get_new_blogs(page_number=page_number,db=db)
+    except Exception as e:
+        print(e, "====")
         raise HTTPException(status_code=500, detail="Something went wrong")
