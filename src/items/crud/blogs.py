@@ -244,10 +244,10 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            where_clause = f"""code='{code}'"""
+            where_clause = f"""code='{code}' AND is_deleted=false"""
             blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
 
-            return {"internal_response_code": 0, "message": f"""success""", "data": blog} if blog else {"internal_response_code": 1, "message": f"""failed to create blog {blog.code}""", "data": None}
+            return {"internal_response_code": 0, "message": f"""success""", "data": blog} if blog else {"internal_response_code": 1, "message": f"""blog {code} not found""", "data": None}
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
 
