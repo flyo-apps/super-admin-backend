@@ -167,7 +167,7 @@ class BlogsCollection:
         try:
             if blog.screen_filter != None:
                 where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
-                where_clause = f"""screen_filter::text='{where_clause_dict}'::text"""
+                where_clause = f"""screen_filter::text='{where_clause_dict}'::text OR code='{blog.code}'"""
             else:
                 where_clause = f"""code='{blog.code}'"""
 
