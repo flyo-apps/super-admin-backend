@@ -511,7 +511,7 @@ class HomePageCollection:
 
                     component_elements_full = copy.deepcopy(details.component_elements) if copy.deepcopy(details.component_elements) else []
 
-                    component_detail = await self.get_component_element_details(db=db, component_elements_type=component_elements_type, component_elements=component_elements)
+                    component_detail = await self.get_component_element_details(db=db, component_elements_type=component_elements_type, component_elements=component_elements, filter_details=filter_details)
                     if component_detail is not None and component_detail not in component_elements_full:
                         if component_elements_image is not None:
                             component_detail['component_elements_image'] = component_elements_image
