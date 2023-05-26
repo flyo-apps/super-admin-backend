@@ -167,7 +167,7 @@ class BlogsCollection:
         try:
             if blog.screen_filter != None:
                 where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
-                where_clause = f"""screen_filter::text='{where_clause_dict}'::text OR code='{blog.code}'"""
+                where_clause = f"""(screen_filter::text='{where_clause_dict}'::text AND is_deleted=false) OR code='{blog.code}'"""
             else:
                 where_clause = f"""code='{blog.code}'"""
 
@@ -176,7 +176,7 @@ class BlogsCollection:
                 return {"internal_response_code": 1, "message": f"""blog {blog.code} exists or {blog.screen_filter} exits""", "data": None}
 
             blog_create = NewBlogCreateModel(**blog.dict(exclude_unset=True))
-            blog_create.screen_filter = json.loads(json.dumps(blog.screen_filter).lower())
+            blog_create.screen_filter = json.loads(json.dumps(blog.screen_filter, separators=(':', ': ')).lower())
             created_blog = self.new_blogs_model.create(db=db, obj_in=blog_create)
 
             return {"internal_response_code": 0, "message": f"""blog {blog.code} created""", "data": None} if created_blog else {"internal_response_code": 1, "message": f"""failed to create blog {blog.code}""", "data": None}
@@ -204,7 +204,12 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            where_clause = f"""code='{blog.code}' AND is_deleted=false"""
+            if blog.screen_filter != None:
+                where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
+                where_clause = f"""screen_filter::text='{where_clause_dict}'::text AND code='{blog.code}' AND is_deleted=false"""
+            else:
+                where_clause = f"""code='{blog.code}' AND is_deleted=false"""
+
             existing_blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
             if existing_blog is None:
                 return {"internal_response_code": 1, "message": f"""blog {blog.code} not found or is deleted""", "data": None}
@@ -212,6 +217,7 @@ class BlogsCollection:
             blog_update = NewBlogUpdateModel(**blog.dict(exclude_unset=True))
             blog_update.is_updated = True
             blog_update.updated_at = datetime.now()
+            blog_update.screen_filter = json.loads(json.dumps(blog.screen_filter, separators=(':', ': ')).lower())
             updated_blog = self.new_blogs_model.update(db=db, db_obj=existing_blog,obj_in=blog_update)
 
             return {"internal_response_code": 0, "message": f"""blog {blog.code} updated""", "data": None} if updated_blog else {"internal_response_code": 1, "message": f"""failed to update blog {blog.code}""", "data": None}
