@@ -24,3 +24,17 @@ class BlogsSchema(Base):
     updated_at = Column(DATETIME)
     is_deleted = Column(Boolean)
     deleted_at = Column(DATETIME)
+
+class NewBlogsSchema(Base):
+    __tablename__ = "new_blogs"
+
+    code = Column(String, primary_key=True, index=True)
+    screen_filter = Column(JSON)
+    content = Column(String)
+    content_summary = Column(String)
+    rank = Column(Integer)
+    created_at = Column(DATETIME)
+    is_updated = Column(Boolean)
+    updated_at = Column(DATETIME)
+    is_deleted = Column(Boolean)
+    deleted_at = Column(DATETIME)
