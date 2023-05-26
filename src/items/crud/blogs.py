@@ -212,6 +212,7 @@ class BlogsCollection:
             blog_update = NewBlogUpdateModel(**blog.dict(exclude_unset=True))
             blog_update.is_updated = True
             blog_update.updated_at = datetime.now()
+            blog_update.screen_filter = json.loads(json.dumps(blog.screen_filter).lower())
             updated_blog = self.new_blogs_model.update(db=db, db_obj=existing_blog,obj_in=blog_update)
 
             return {"internal_response_code": 0, "message": f"""blog {blog.code} updated""", "data": None} if updated_blog else {"internal_response_code": 1, "message": f"""failed to update blog {blog.code}""", "data": None}
