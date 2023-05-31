@@ -5,6 +5,7 @@ from .categories import CategoriesCollection
 from .brands import BrandsCollection
 from .products import ProductsCollection
 from .stories import StoriesCollection
+from .blogs import BlogsCollection
 import json
 from .homepage_group import HomepageGroupCollection
 from .brands_collection import BrandsCollectionCollection
@@ -270,6 +271,12 @@ class HomePageCollection:
                 component_details['redirection_text'] = component_details_full.redirection_text
                 component_details['redirection_value'] = component_details_full.redirection_value
                 component_details['filters'] = component_details_full.filters
+            elif component_elements_type == "Blog":
+                component_details['code'] = component_details_full.code
+                component_details['screen_filter'] = component_details_full.screen_filter
+                component_details['content'] = component_details_full.content
+                component_details['content_summary'] = component_details_full.content_summary
+                component_details['rank'] = component_details_full.rank
 
             else:
                 component_details = component_details_full.dict()
@@ -317,6 +324,9 @@ class HomePageCollection:
             elif component_elements_type == "Story":
                 stories_collection = StoriesCollection()
                 component_details_full = await stories_collection.get_story_by_code(db=db, story_code=component_elements)
+            elif component_elements_type == "Blog":
+                blogs_collection = BlogsCollection()
+                component_details_full = await blogs_collection.get_new_blog(db=db, code=component_elements)
             else:
                 component_details_full = {}
 
@@ -362,6 +372,9 @@ class HomePageCollection:
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             elif component_elements_type == "Story":
+                component_details = [component for component in component_list if component['code'] == component_elements]
+
+            elif component_elements_type == "Blog":
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             return component_details[0] if component_details else None
