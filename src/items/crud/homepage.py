@@ -326,7 +326,7 @@ class HomePageCollection:
                 component_details_full = await stories_collection.get_story_by_code(db=db, story_code=component_elements)
             elif component_elements_type == "Blog":
                 blogs_collection = BlogsCollection()
-                component_details_full = await blogs_collection.get_new_blog(db=db, code=component_elements)
+                component_details_full = await blogs_collection.get_new_blog_by_code(db=db, code=component_elements)
             else:
                 component_details_full = {}
 
