@@ -204,15 +204,15 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            if blog.screen_filter != None:
-                where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
-                where_clause = f"""screen_filter::text='{where_clause_dict}'::text AND code='{blog.code}' AND is_deleted=false"""
-            else:
-                where_clause = f"""code='{blog.code}' AND is_deleted=false"""
-
+            where_clause = f"""code='{blog.code}' AND is_deleted=false"""
             existing_blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
             if existing_blog is None:
                 return {"internal_response_code": 1, "message": f"""blog {blog.code} not found or is deleted""", "data": None}
+
+            if existing_blog.screen_filter != None and existing_blog.screen_filter != {} and blog.screen_filter != None and blog.screen_filter != {}:
+                update_blog_screen_filter = json.loads(json.dumps(blog.screen_filter, separators=(':', ': ')).lower())
+                if existing_blog.screen_filter != update_blog_screen_filter:
+                    return {"internal_response_code": 1, "message": f"""blog {blog.code} filters doesnt match""", "data": None}
 
             blog_update = NewBlogUpdateModel(**blog.dict(exclude_unset=True))
             blog_update.is_updated = True
