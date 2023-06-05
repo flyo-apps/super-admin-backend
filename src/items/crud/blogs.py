@@ -209,10 +209,17 @@ class BlogsCollection:
             if existing_blog is None:
                 return {"internal_response_code": 1, "message": f"""blog {blog.code} not found or is deleted""", "data": None}
 
-            if existing_blog.screen_filter != None and existing_blog.screen_filter != {} and blog.screen_filter != None and blog.screen_filter != {}:
-                update_blog_screen_filter = json.loads(json.dumps(blog.screen_filter, separators=(':', ': ')).lower())
-                if existing_blog.screen_filter != update_blog_screen_filter:
-                    return {"internal_response_code": 1, "message": f"""blog {blog.code} filters doesnt match""", "data": None}
+            if blog.screen_filter != None and blog.screen_filter != {}:
+                if existing_blog.screen_filter != None and existing_blog.screen_filter != {}:
+                    update_blog_screen_filter = json.loads(json.dumps(blog.screen_filter, separators=(':', ': ')).lower())
+                    if existing_blog.screen_filter != update_blog_screen_filter:
+                        return {"internal_response_code": 1, "message": f"""blog {blog.code} filters doesnt match""", "data": None}
+                else:
+                    where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
+                    where_clause = f"""screen_filter::text='{where_clause_dict}'::text AND is_deleted=false"""
+                    existing_screen_filter_blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
+                    if existing_screen_filter_blog:
+                        return {"internal_response_code": 1, "message": f"""screen filter {blog.screen_filter} exists""", "data": None}
 
             blog_update = NewBlogUpdateModel(**blog.dict(exclude_unset=True))
             blog_update.is_updated = True
