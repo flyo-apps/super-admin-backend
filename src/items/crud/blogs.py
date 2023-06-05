@@ -190,7 +190,7 @@ class BlogsCollection:
     ) -> any:
         try:
             where_clause_dict = json.dumps(screen_filter, separators=(':', ': ')).lower()
-            where_clause = f"""screen_filter::text='{where_clause_dict}'::text"""
+            where_clause = f"""screen_filter::text='{where_clause_dict}'::text AND is_deleted=false"""
             blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
 
             return {"internal_response_code": 0, "message": "success", "data": blog} if blog else {"internal_response_code": 1, "message": "failed", "data": None}
