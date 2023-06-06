@@ -257,6 +257,19 @@ class BlogsCollection:
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
 
+    async def get_new_blog_by_code(
+        self,
+        code: NewBlogCreateBaseModel,
+        db: Session
+    ) -> any:
+        try:
+            where_clause = f"""code='{code}' AND is_deleted=false"""
+            blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
+
+            return blog
+        except Exception:
+            raise HTTPException(status_code=500, detail="Something went wrong")
+
     async def get_new_blogs(
         self,
         db: Session,
