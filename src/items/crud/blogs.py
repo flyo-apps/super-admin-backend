@@ -238,15 +238,14 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            where_clause = f"""code='{code}' AND is_deleted=false"""
+            where_clause = f"""code='{code}'"""
             existing_blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
             if existing_blog is None:
                 return {"internal_response_code": 1, "message": f"""blog {code} not found or already deleted"""}
 
-            blog_delete_dict = BlogDeleteModel(code=code).dict()
-            deleted_blog = self.new_blogs_model.update(db=db, db_obj=existing_blog, obj_in=blog_delete_dict)
+            deleted_blog = self.new_blogs_model.remove(db=db, where_clause=where_clause)
 
-            return {"internal_response_code": 0, "message": f"""blog {code} deleted""", "data": None} if deleted_blog else {"internal_response_code": 1, "message": f"""failed to delete blog {code}""", "data": None}
+            return {"internal_response_code": 0, "message": f"""new blog {code} deleted""", "data": None} if deleted_blog == None else {"internal_response_code": 1, "message": f"""failed to delete new blog {code}""", "data": None}
 
         except:
             raise HTTPException(status_code=500, detail="Something went wrong")
