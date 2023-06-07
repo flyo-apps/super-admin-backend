@@ -167,7 +167,7 @@ class BlogsCollection:
         try:
             if blog.screen_filter != None:
                 where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
-                where_clause = f"""(screen_filter::text='{where_clause_dict}'::text AND is_deleted=false) OR code='{blog.code}'"""
+                where_clause = f"""(screen_filter::text='{where_clause_dict}'::text) OR code='{blog.code}'"""
             else:
                 where_clause = f"""code='{blog.code}'"""
 
@@ -204,15 +204,22 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            if blog.screen_filter != None:
-                where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
-                where_clause = f"""screen_filter::text='{where_clause_dict}'::text AND code='{blog.code}' AND is_deleted=false"""
-            else:
-                where_clause = f"""code='{blog.code}' AND is_deleted=false"""
-
+            where_clause = f"""code='{blog.code}'"""
             existing_blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
             if existing_blog is None:
                 return {"internal_response_code": 1, "message": f"""blog {blog.code} not found or is deleted""", "data": None}
+
+            if blog.screen_filter != None and blog.screen_filter != {}:
+                if existing_blog.screen_filter != None and existing_blog.screen_filter != {}:
+                    update_blog_screen_filter = json.loads(json.dumps(blog.screen_filter, separators=(':', ': ')).lower())
+                    if existing_blog.screen_filter != update_blog_screen_filter:
+                        return {"internal_response_code": 1, "message": f"""blog {blog.code} filters doesnt match""", "data": None}
+                else:
+                    where_clause_dict = json.dumps(blog.screen_filter, separators=(':', ': ')).lower()
+                    where_clause = f"""screen_filter::text='{where_clause_dict}'::text"""
+                    existing_screen_filter_blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
+                    if existing_screen_filter_blog:
+                        return {"internal_response_code": 1, "message": f"""screen filter {blog.screen_filter} exists""", "data": None}
 
             blog_update = NewBlogUpdateModel(**blog.dict(exclude_unset=True))
             blog_update.is_updated = True
@@ -231,15 +238,14 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            where_clause = f"""code='{code}' AND is_deleted=false"""
+            where_clause = f"""code='{code}'"""
             existing_blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
             if existing_blog is None:
                 return {"internal_response_code": 1, "message": f"""blog {code} not found or already deleted"""}
 
-            blog_delete_dict = BlogDeleteModel(code=code).dict()
-            deleted_blog = self.new_blogs_model.update(db=db, db_obj=existing_blog, obj_in=blog_delete_dict)
+            deleted_blog = self.new_blogs_model.remove(db=db, where_clause=where_clause)
 
-            return {"internal_response_code": 0, "message": f"""blog {code} deleted""", "data": None} if deleted_blog else {"internal_response_code": 1, "message": f"""failed to delete blog {code}""", "data": None}
+            return {"internal_response_code": 0, "message": f"""new blog {code} deleted""", "data": None} if deleted_blog == None else {"internal_response_code": 1, "message": f"""failed to delete new blog {code}""", "data": None}
 
         except:
             raise HTTPException(status_code=500, detail="Something went wrong")
@@ -250,7 +256,7 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            where_clause = f"""code='{code}' AND is_deleted=false"""
+            where_clause = f"""code='{code}'"""
             blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
 
             return {"internal_response_code": 0, "message": f"""success""", "data": blog} if blog else {"internal_response_code": 1, "message": f"""blog {code} not found""", "data": None}
@@ -263,7 +269,7 @@ class BlogsCollection:
         db: Session
     ) -> any:
         try:
-            where_clause = f"""code='{code}' AND is_deleted=false"""
+            where_clause = f"""code='{code}'"""
             blog = self.new_blogs_model.get_one(db=db, where_clause=where_clause)
 
             return blog
@@ -281,7 +287,7 @@ class BlogsCollection:
             if page_number > 1:
                 skip = (page_number - 1)*limit
 
-            query = f"""select * from new_blogs where is_deleted = false ORDER BY rank DESC OFFSET {skip} LIMIT {limit}"""
+            query = f"""select * from new_blogs ORDER BY rank DESC OFFSET {skip} LIMIT {limit}"""
             blogs = self.new_blogs_model.call_postgres_function(db=db, query=query)
 
             return {"internal_response_code": 0, "message": "success", "data": blogs} if len(blogs) > 0 else {"internal_response_code": 1, "message": "failed", "data": None}
