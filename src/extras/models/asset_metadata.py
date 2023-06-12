@@ -10,3 +10,11 @@ class CreateAssetMetaDataBaseModel(BaseModel):
 
 class CreateAssetMetaDataModel(CreateAssetMetaDataBaseModel):
     created_at: datetime = datetime.now()
+
+class CreateAssetMetaDataFromBlobModel(BaseModel):
+    name: str
+    type: str
+    dimension: str
+    link: str = ""
+    blob_filedata: bytes
+    created_at: datetime = datetime.now()

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Security, Depends
+from fastapi import APIRouter, HTTPException, Security, Depends, UploadFile, Response
 from auth.authentication_user import get_current_active_user
 from typing import List
 from extras.crud.asset_metadata import AssetMetaDataCollection
@@ -50,5 +50,23 @@ async def get_multiple_asset_metadata(
         asset_metadata_collection = AssetMetaDataCollection()
         return await asset_metadata_collection.get_multiple_asset_metadata(db=db, names=names)
     except Exception:
+        raise HTTPException(status_code=500, detail="something went wrong")
+
+@router.post(
+    "/v1/create_asset_metadata_from_blob",
+    dependencies=[Security(get_current_active_user, scopes=["admin:write"])],
+)
+async def create_asset_metadata(
+	image_name: str,
+	image_type: str,
+	image_dimension: str,
+	image_blob_file: UploadFile,
+    db: Session = Depends(auroradb.get_db)
+):
+    try:
+        asset_metadata_collection = AssetMetaDataCollection()
+        return await asset_metadata_collection.create_asset_metadata_from_blob(image_name, image_type, image_dimension, image_blob_file, db)
+    except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail="something went wrong")
 
