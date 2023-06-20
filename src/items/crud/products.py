@@ -158,7 +158,7 @@ class ProductsCollection:
                 product_update.is_updated = True
                 product_update.updated_at = datetime.now()
                 update_products_state_dict_list.append(
-                    product_update.dict(exclude_none=True, exclude={'sku_code'}))
+                    product_update.dict(exclude_unset=True, exclude={'sku_code'}))
 
             updated_product = self.model.bulk_update(db=db, update_vals=update_products_state_dict_list)
 
@@ -202,7 +202,7 @@ class ProductsCollection:
                 product_update.is_updated = True
                 product_update.updated_at = datetime.now()
                 update_products_description_list.append(
-                    product_update.dict(exclude_none=True, exclude={'sku_code'}))
+                    product_update.dict(exclude_unset=True, exclude={'sku_code'}))
 
             updated_product = self.model.bulk_update(
                 db=db, update_vals=update_products_description_list)
