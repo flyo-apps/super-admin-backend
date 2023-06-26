@@ -305,6 +305,11 @@ class HomePageCollection:
                 if filter_details == None:
                     return None
                 filter_details["title"] = component_elements
+                return filter_details
+            if component_elements_type == "Redirection":
+                if filter_details == None:
+                    return None
+                filter_details["code"] = component_elements
                 return filter_details 
             elif component_elements_type == "Product":
                 products_collection = ProductsCollection()
@@ -388,6 +393,9 @@ class HomePageCollection:
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             elif component_elements_type == "Store":
+                component_details = [component for component in component_list if component['code'] == component_elements]
+
+            elif component_elements_type == "Redirection":
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             return component_details[0] if component_details else None
