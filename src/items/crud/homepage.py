@@ -10,7 +10,7 @@ import json
 from .homepage_group import HomepageGroupCollection
 from .brands_collection import BrandsCollectionCollection
 from .product_collection import ProductCollectionCollection
-from ...influencer.crud.store import InfluencerStoreCollection
+from influencer.crud.store import InfluencerStoreCollection
 from ..utils.constants import (
     HOMEPAGE_COL_RETURN, VALID_COMPONENT_TYPES, VALID_COMPONENT_ELEMENTS_TYPE, VALID_ADD_TO_LIST, VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES
 )
