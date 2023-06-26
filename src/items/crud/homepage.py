@@ -10,6 +10,7 @@ import json
 from .homepage_group import HomepageGroupCollection
 from .brands_collection import BrandsCollectionCollection
 from .product_collection import ProductCollectionCollection
+from ...influencer.crud.store import InfluencerStoreCollection
 from ..utils.constants import (
     HOMEPAGE_COL_RETURN, VALID_COMPONENT_TYPES, VALID_COMPONENT_ELEMENTS_TYPE, VALID_ADD_TO_LIST, VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES
 )
@@ -277,7 +278,13 @@ class HomePageCollection:
                 component_details['content'] = component_details_full.content
                 component_details['content_summary'] = component_details_full.content_summary
                 component_details['rank'] = component_details_full.rank
-
+            elif component_elements_type == 'Store':
+                component_details['code'] = component_details_full.code
+                component_details['description'] = component_details_full.description
+                component_details['store_name'] = component_details_full.name
+                component_details['image'] = component_details_full.image
+                component_details['cover_image'] = component_details_full.cover_image
+                component_details['influencer_handle'] = component_details_full.influencer_handle
             else:
                 component_details = component_details_full.dict()
 
@@ -327,6 +334,9 @@ class HomePageCollection:
             elif component_elements_type == "Blog":
                 blogs_collection = BlogsCollection()
                 component_details_full = await blogs_collection.get_new_blog_by_code(db=db, code=component_elements)
+            elif component_elements_type == "Store":
+                influencer_store_collection = InfluencerStoreCollection()
+                component_details_full = await influencer_store_collection.get_store(db=db, store_code=component_elements)
             else:
                 component_details_full = {}
 
@@ -375,6 +385,9 @@ class HomePageCollection:
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             elif component_elements_type == "Blog":
+                component_details = [component for component in component_list if component['code'] == component_elements]
+
+            elif component_elements_type == "Store":
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             return component_details[0] if component_details else None
