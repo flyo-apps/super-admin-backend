@@ -278,7 +278,7 @@ class HomePageCollection:
                 component_details['content'] = component_details_full.content
                 component_details['content_summary'] = component_details_full.content_summary
                 component_details['rank'] = component_details_full.rank
-            elif component_elements_type == 'Store':
+            elif component_elements_type == 'IfStore':
                 component_details['code'] = component_details_full.code
                 component_details['description'] = component_details_full.description
                 component_details['store_name'] = component_details_full.name
@@ -339,7 +339,7 @@ class HomePageCollection:
             elif component_elements_type == "Blog":
                 blogs_collection = BlogsCollection()
                 component_details_full = await blogs_collection.get_new_blog_by_code(db=db, code=component_elements)
-            elif component_elements_type == "Store":
+            elif component_elements_type == "IfStore":
                 influencer_store_collection = InfluencerStoreCollection()
                 component_details_full = await influencer_store_collection.get_store(db=db, store_code=component_elements)
             else:
@@ -392,7 +392,7 @@ class HomePageCollection:
             elif component_elements_type == "Blog":
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
-            elif component_elements_type == "Store":
+            elif component_elements_type == "IfStore":
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             elif component_elements_type == "Redirection":
