@@ -16,4 +16,16 @@ class InfluencerStoreCollection:
             store = self.influencer_store_model.get_one(db=db, code=store_code)
             return store
         except Exception:
+            raise HTTPException(status_code=500, detail="Something went wrong")
+
+    async def get_store_by_name(
+        self,
+        store_name: str,
+        influencer_handle: str,
+        db: Session,
+    ) -> any:
+        try:
+            store = self.influencer_store_model.get_one(db=db, where_clause=f"""lower(influencer_handle)='{influencer_handle.lower()}' and lower(name)='{store_name.lower()}'""")
+            return {"internal_response_code": 0, "message": "success", "data": store} if store else {"internal_response_code": 1, "message": 'failed', "data": None}
+        except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong") 
