@@ -26,6 +26,8 @@ from db.redis.redis_base import RedisBase
 from db.aurora.aurora_base import CRUDBase
 from sqlalchemy.orm import Session
 
+GET_MULTIPLE_PRODUCTS_THRESHOLD = 100
+
 class ProductsCollection:
     def __init__(self):
         self.model = CRUDBase(ProductsSchema)
@@ -426,7 +428,7 @@ class ProductsCollection:
             array_val = ','.join(sku_codes_values)
             where_clause = f"""sku_code IN ({array_val})"""
 
-            products_list = self.model.get_all(db=db, where_clause=where_clause)
+            products_list = self.model.get_all(db=db, where_clause=where_clause, limit=GET_MULTIPLE_PRODUCTS_THRESHOLD)
             return products_list
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
