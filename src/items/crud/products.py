@@ -26,6 +26,8 @@ from db.redis.redis_base import RedisBase
 from db.aurora.aurora_base import CRUDBase
 from sqlalchemy.orm import Session
 
+GET_MULTIPLE_PRODUCTS_THRESHOLD = 100
+
 class ProductsCollection:
     def __init__(self):
         self.model = CRUDBase(ProductsSchema)
@@ -158,7 +160,7 @@ class ProductsCollection:
                 product_update.is_updated = True
                 product_update.updated_at = datetime.now()
                 update_products_state_dict_list.append(
-                    product_update.dict(exclude_none=True, exclude={'sku_code'}))
+                    product_update.dict(exclude_unset=True, exclude={'sku_code'}))
 
             updated_product = self.model.bulk_update(db=db, update_vals=update_products_state_dict_list)
 
@@ -202,7 +204,7 @@ class ProductsCollection:
                 product_update.is_updated = True
                 product_update.updated_at = datetime.now()
                 update_products_description_list.append(
-                    product_update.dict(exclude_none=True, exclude={'sku_code'}))
+                    product_update.dict(exclude_unset=True, exclude={'sku_code'}))
 
             updated_product = self.model.bulk_update(
                 db=db, update_vals=update_products_description_list)
@@ -422,11 +424,11 @@ class ProductsCollection:
             if len(sku_codes) <= 0:
                 return None
             
-            sku_codes_values = ["'" + name + "'" for name in sku_codes]
+            sku_codes_values = ["'" + name.lower() + "'" for name in sku_codes]
             array_val = ','.join(sku_codes_values)
-            where_clause = f"""sku_code IN ({array_val})"""
+            where_clause = f"""lower(sku_code) IN ({array_val})"""
 
-            products_list = self.model.get_all(db=db, where_clause=where_clause)
+            products_list = self.model.get_all(db=db, where_clause=where_clause, limit=GET_MULTIPLE_PRODUCTS_THRESHOLD)
             return products_list
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
