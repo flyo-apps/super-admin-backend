@@ -424,9 +424,9 @@ class ProductsCollection:
             if len(sku_codes) <= 0:
                 return None
             
-            sku_codes_values = ["'" + name + "'" for name in sku_codes]
+            sku_codes_values = ["'" + name.lower() + "'" for name in sku_codes]
             array_val = ','.join(sku_codes_values)
-            where_clause = f"""sku_code IN ({array_val})"""
+            where_clause = f"""lower(sku_code) IN ({array_val})"""
 
             products_list = self.model.get_all(db=db, where_clause=where_clause, limit=GET_MULTIPLE_PRODUCTS_THRESHOLD)
             return products_list
