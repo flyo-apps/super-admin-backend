@@ -23,6 +23,10 @@ from items.routers import (
     product_collection
 )
 
+from influencer.routers import (
+    store
+)
+
 from db.mongo.mongo_adaptor import (
     close_mongo_connection,
     connect_to_mongo
@@ -119,6 +123,9 @@ app.include_router(product_collection.router, tags=["Product Collection"])
 
 # Coupons ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
+
+# Influencer ROUTERS
+app.include_router(store.router, tags=["Influencer Store"])
 
 # ASSET METADATA ROUTES
 app.include_router(asset_metadata.router, tags=["Asset Metadata"])
