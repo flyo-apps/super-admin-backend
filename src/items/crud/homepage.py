@@ -12,7 +12,7 @@ from .brands_collection import BrandsCollectionCollection
 from .product_collection import ProductCollectionCollection
 from influencer.crud.store import InfluencerStoreCollection
 from ..utils.constants import (
-    HOMEPAGE_COL_RETURN, VALID_COMPONENT_TYPES, VALID_COMPONENT_ELEMENTS_TYPE, VALID_ADD_TO_LIST, VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES
+    HOMEPAGE_COL_RETURN, VALID_COMPONENT_TYPES, VALID_COMPONENT_ELEMENTS_TYPE, VALID_ADD_TO_LIST, VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES, VALID_REDIRECTION_ELEMENT_TYPE
 )
 from ..models.homepage import (
     HomePageDeleteModel,
@@ -307,10 +307,16 @@ class HomePageCollection:
                 filter_details["title"] = component_elements
                 return filter_details
             if component_elements_type == "Redirection":
-                if filter_details == None:
+                if not ("filters" in filter_details and filter_details["filters"] and "redirection_type" in filter_details["filters"] and filter_details["filters"]["redirection_type"]):
                     return None
-                filter_details["code"] = component_elements
-                return filter_details 
+                if filter_details["filters"]["redirection_type"].lower() not in VALID_REDIRECTION_ELEMENT_TYPE:
+                    return None
+                component_details = {}
+                component_details["code"] = component_elements
+                component_details["redirection_type"] = filter_details["filters"]["redirection_type"].lower()
+                if "redirection_code" in filter_details["filters"] and filter_details["filters"]["redirection_code"]:
+                    component_details["redirection_code"] = filter_details["filters"]["redirection_code"]
+                return component_details
             elif component_elements_type == "Product":
                 products_collection = ProductsCollection()
                 component_details_full = await products_collection.get_product_by_sku_code(db=db, sku_code=component_elements)

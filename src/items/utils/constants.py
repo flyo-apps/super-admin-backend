@@ -48,6 +48,8 @@ VALID_COMPONENT_ELEMENTS_TYPE = [
     "Product", "Brand", "Category", "HomepageCollection", "BrandCollection", "Refer", "Filter", "ProductCollection", "Homepage", "Story", "Blog", "IfStore", "Redirection"
 ]
 
+VALID_REDIRECTION_ELEMENT_TYPE = ["homepage", "refer", "giftcards", "cart", "wishlist", "blogs", "about", "help", "wallet", "address", "occasion"]
+
 VALID_ADD_TO_LIST = [
     "Brand", "BrandCollection", "Category", "Usecase", "Homepage"
 ]
