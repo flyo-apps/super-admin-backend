@@ -124,8 +124,7 @@ def create_product_table():
             pick_pack_time SMALLINT,
             title_tag TEXT,
             description_tag TEXT,
-            h1_tag TEXT,
-            search_tags_string TEXT
+            h1_tag TEXT
         )
     """
 
