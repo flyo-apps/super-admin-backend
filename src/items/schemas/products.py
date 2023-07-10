@@ -129,3 +129,4 @@ class ProductsSchema(Base):
     description_tag = Column(String)
     h1_tag = Column(String)
     complete_the_look_skus = Column(ARRAY(String))
+    search_tags_string = Column(String)
