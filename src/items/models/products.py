@@ -127,7 +127,6 @@ class ProductCreateBaseModel(BaseModel):
     h1_tag: Optional[str] = None
     qnas: Optional[List[ProductQNAModel]] = None
     complete_the_look_skus: Optional[List[str]] = None
-    search_tags_string: Optional[str] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -245,7 +244,6 @@ class ProductUpdateStateBaseModel(BaseModel):
     manufacturer_name: Optional[str]
     manufacturer_address: Optional[str] 
     manufacturer_pincode: Optional[str]
-    search_tags_string: Optional[str]
 
 class ProductUpdateStateModel(ProductUpdateStateBaseModel):
     is_updated : Optional[bool] = True
