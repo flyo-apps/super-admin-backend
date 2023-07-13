@@ -43,7 +43,8 @@ async def login_user(
             "access_token": access_token, 
             "token_type": "bearer"
         }
-    except Exception:
+    except Exception as e:
+        print(e, "")
         raise HTTPException(status_code=500, detail="Something went wrong while login ")
 
 

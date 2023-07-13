@@ -19,6 +19,7 @@ from items.routers import (
     brands_collection,
     usecases,
     stories,
+    multi_stories,
     quick_filters,
     product_collection
 )
@@ -118,6 +119,7 @@ app.include_router(brands_collection.router, tags=["Brands Collection"])
 app.include_router(homepage.router, tags=["Homepage"])
 app.include_router(usecases.router, tags=["Usecases"])
 app.include_router(stories.router, tags=["Stories"])
+app.include_router(multi_stories.router, tags=["Multi Stories"])
 app.include_router(quick_filters.router, tags=["Quick Filters"])
 app.include_router(product_collection.router, tags=["Product Collection"])
 
