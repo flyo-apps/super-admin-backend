@@ -45,7 +45,7 @@ VALID_COMPONENT_TYPES = ["FWBanner", "FWImageCarousel", "FWITRCarousel", "FWITLC
 ]
 
 VALID_COMPONENT_ELEMENTS_TYPE = [
-    "Product", "Brand", "Category", "HomepageCollection", "BrandCollection", "Refer", "Filter", "ProductCollection", "Homepage", "Story", "Blog", "IfStore", "Redirection"
+    "Product", "Brand", "Category", "HomepageCollection", "BrandCollection", "Refer", "Filter", "ProductCollection", "Homepage", "Story", "Blog", "IfStore", "Redirection", "MultiStory"
 ]
 
 VALID_REDIRECTION_ELEMENT_TYPE = ["homepage", "refer", "giftcards", "cart", "wishlist", "blogs", "about", "help", "wallet", "address", "occasion"]
