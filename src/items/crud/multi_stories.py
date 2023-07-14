@@ -43,7 +43,7 @@ class MultiStoriesCollection:
         db: Session
     ) -> any:
         try:
-            where_clause = f"""code='{story_update_details.code}'"""
+            where_clause = f"""code='{story_update_details.code}' AND is_deleted=false"""
             existing_story = self.model.get_one(db=db, where_clause=where_clause)
             if existing_story is None:
                 return {"internal_response_code": 1, "message": f"""story {story_update_details.code} not found"""}
