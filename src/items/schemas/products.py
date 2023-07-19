@@ -130,3 +130,4 @@ class ProductsSchema(Base):
     h1_tag = Column(String)
     complete_the_look_skus = Column(ARRAY(String))
     certificate_image = Column(String)
+    product_details = Column(JSON)
