@@ -21,7 +21,8 @@ from items.routers import (
     stories,
     multi_stories,
     quick_filters,
-    product_collection
+    product_collection,
+    rate_breakup
 )
 
 from influencer.routers import (
@@ -110,6 +111,7 @@ app.include_router(auth.router, tags=["Auth"])
 # ITEMS ROUTERS
 app.include_router(shipping_data.router, tags=["Shipping Data"])
 app.include_router(products.router, tags=["Products"])
+app.include_router(rate_breakup.router, tags=["Rate Breakup"]),
 app.include_router(product_variants.router, tags=["Product Variants"])
 app.include_router(product_reviews.router, tags=["Product Reviews"])
 app.include_router(blogs.router, tags=["Blogs"])
