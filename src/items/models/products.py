@@ -127,6 +127,7 @@ class ProductCreateBaseModel(BaseModel):
     h1_tag: Optional[str] = None
     qnas: Optional[List[ProductQNAModel]] = None
     complete_the_look_skus: Optional[List[str]] = None
+    certificate_image: Optional[str] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -217,6 +218,7 @@ class ProductUpdateBaseModel(BaseModel):
     pick_pack_time: Optional[int] = None
     qnas: Optional[List[ProductQNAModel]] = None
     complete_the_look_skus: Optional[List[str]] = None
+    certificate_image: Optional[str] = None
 
 
 class ProductUpdateModel(ProductUpdateBaseModel):
