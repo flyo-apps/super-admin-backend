@@ -126,7 +126,8 @@ def create_product_table():
             description_tag TEXT,
             h1_tag TEXT,
             certificate_image TEXT,
-            product_details JSON
+            product_details JSON,
+            price_breakup JSON
         )
     """
 
