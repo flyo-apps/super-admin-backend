@@ -31,10 +31,10 @@ class ProductDetailsModel(BaseModel):
     diamonds_and_gemstones: Optional[List[ProductDiamondsAndGemstonesModel]] = None
 
 class ProductPriceBreakupModel(BaseModel):
-    components: Optional[List[dict]] = None
-    making_charges: Optional[float] = None
-    gst: Optional[float] = None
-    grand_total: Optional[float] = None
+    component: str = None
+    value: str = None
+    rate: Optional[str] = None
+    weight: Optional[str] = None
 
 class ProductCreateBaseModel(BaseModel):
     code : str
@@ -157,7 +157,7 @@ class ProductCreateBaseModel(BaseModel):
     complete_the_look_skus: Optional[List[str]] = None
     certificate_image: Optional[str] = None
     product_details: Optional[ProductDetailsModel] = None
-    price_breakup: Optional[ProductPriceBreakupModel] = None
+    price_breakup: Optional[List[ProductPriceBreakupModel]] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -250,7 +250,7 @@ class ProductUpdateBaseModel(BaseModel):
     complete_the_look_skus: Optional[List[str]] = None
     certificate_image: Optional[str] = None
     product_details: Optional[ProductDetailsModel] = None
-    price_breakup: Optional[ProductPriceBreakupModel] = None
+    price_breakup: Optional[List[ProductPriceBreakupModel]] = None
 
 
 class ProductUpdateModel(ProductUpdateBaseModel):
