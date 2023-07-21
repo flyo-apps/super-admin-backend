@@ -8,6 +8,34 @@ class ProductQNAModel(BaseModel):
     answer: str
     created_at: Optional[str]
 
+class ProductMetalAndPurityModel(BaseModel):
+    metal: str
+    plating: Optional[str]
+
+class ProductDimensionAndWeightModel(BaseModel):
+    product_weight: float
+    width: float
+    height: float
+
+class ProductDiamondsAndGemstonesModel(BaseModel):
+    stone_type: str
+    total_number: int
+    total_weight: float
+    color: str
+    clarity: str
+    cut: str
+
+class ProductDetailsModel(BaseModel):
+    metal_and_purity: Optional[List[ProductMetalAndPurityModel]] = None
+    dimension_and_weight: Optional[List[ProductDimensionAndWeightModel]] = None
+    diamonds_and_gemstones: Optional[List[ProductDiamondsAndGemstonesModel]] = None
+
+class ProductPriceBreakupModel(BaseModel):
+    component: str = None
+    value: str = None
+    rate: Optional[str] = None
+    weight: Optional[str] = None
+
 class ProductCreateBaseModel(BaseModel):
     code : str
     sku_code : str
@@ -127,6 +155,9 @@ class ProductCreateBaseModel(BaseModel):
     h1_tag: Optional[str] = None
     qnas: Optional[List[ProductQNAModel]] = None
     complete_the_look_skus: Optional[List[str]] = None
+    certificate_image: Optional[str] = None
+    product_details: Optional[ProductDetailsModel] = None
+    price_breakup: Optional[List[ProductPriceBreakupModel]] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -217,6 +248,9 @@ class ProductUpdateBaseModel(BaseModel):
     pick_pack_time: Optional[int] = None
     qnas: Optional[List[ProductQNAModel]] = None
     complete_the_look_skus: Optional[List[str]] = None
+    certificate_image: Optional[str] = None
+    product_details: Optional[ProductDetailsModel] = None
+    price_breakup: Optional[List[ProductPriceBreakupModel]] = None
 
 
 class ProductUpdateModel(ProductUpdateBaseModel):
