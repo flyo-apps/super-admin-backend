@@ -93,6 +93,6 @@ async def get_all_rate_breakup_by_brand_and_or_metal(
         if brand == None and metal == None:
             return {"internal_response_code": 1, "message": "Either provide metal or brand or both", "data": None}
         rate_breakup_collection = RateBreakupCollection()
-        return await rate_breakup_collection.get_all_rate_breakup_by_brand_and_or_metal(db=db)
+        return await rate_breakup_collection.get_all_rate_breakup_by_brand_and_or_metal(db=db, brand=brand, metal=metal)
     except Exception:
         raise HTTPException(status_code=500, detail="Something went wrong")
