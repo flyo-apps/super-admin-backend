@@ -13,14 +13,14 @@ class ProductMetalAndPurityModel(BaseModel):
     plating: Optional[str]
 
 class ProductDimensionAndWeightModel(BaseModel):
-    product_weight: float
-    width: float
-    height: float
+    product_weight: str
+    width: str
+    height: str
 
 class ProductDiamondsAndGemstonesModel(BaseModel):
     stone_type: str
     total_number: int
-    total_weight: float
+    total_weight: str
     color: str
     clarity: str
     cut: str
