@@ -21,6 +21,7 @@ from items.routers import (
     stories,
     multi_stories,
     quick_filters,
+    quick_banners,
     product_collection,
     rate_breakup
 )
@@ -123,6 +124,7 @@ app.include_router(usecases.router, tags=["Usecases"])
 app.include_router(stories.router, tags=["Stories"])
 app.include_router(multi_stories.router, tags=["Multi Stories"])
 app.include_router(quick_filters.router, tags=["Quick Filters"])
+app.include_router(quick_banners.router, tags=["Quick Banners"])
 app.include_router(product_collection.router, tags=["Product Collection"])
 
 # Coupons ROUTERS
