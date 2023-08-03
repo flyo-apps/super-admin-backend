@@ -132,3 +132,4 @@ class ProductsSchema(Base):
     certificate_image = Column(String)
     product_details = Column(JSON)
     price_breakup = Column(ARRAY(JSON))
+    people_also_explored = Column(ARRAY(JSON))

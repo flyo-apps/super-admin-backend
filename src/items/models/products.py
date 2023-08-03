@@ -135,6 +135,7 @@ class ProductCreateBaseModel(BaseModel):
     certificate_image: Optional[str] = None
     product_details: Optional[ProductDetailsModel] = None
     price_breakup: Optional[List[List]] = None
+    people_also_explored: Optional[List[dict]] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -228,6 +229,7 @@ class ProductUpdateBaseModel(BaseModel):
     certificate_image: Optional[str] = None
     product_details: Optional[ProductDetailsModel] = None
     price_breakup: Optional[List[List]] = None
+    people_also_explored: Optional[List[dict]] = None
 
 
 class ProductUpdateModel(ProductUpdateBaseModel):
