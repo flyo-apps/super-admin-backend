@@ -8,27 +8,10 @@ class ProductQNAModel(BaseModel):
     answer: str
     created_at: Optional[str]
 
-class ProductMetalAndPurityModel(BaseModel):
-    metal: str
-    plating: Optional[str]
-
-class ProductDimensionAndWeightModel(BaseModel):
-    product_weight: str
-    width: str
-    height: str
-
-class ProductDiamondsAndGemstonesModel(BaseModel):
-    stone_type: str
-    total_number: int
-    total_weight: str
-    color: str
-    clarity: str
-    cut: str
-
 class ProductDetailsModel(BaseModel):
-    metal_and_purity: Optional[List[ProductMetalAndPurityModel]] = None
-    dimension_and_weight: Optional[List[ProductDimensionAndWeightModel]] = None
-    diamonds_and_gemstones: Optional[List[ProductDiamondsAndGemstonesModel]] = None
+    metal_and_purity: Optional[List[dict]] = None
+    dimension_and_weight: Optional[List[dict]] = None
+    diamonds_and_gemstones: Optional[List[dict]] = None
 
 class ProductCreateBaseModel(BaseModel):
     code : str
