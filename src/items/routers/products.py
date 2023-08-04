@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 from fastapi import APIRouter, Depends, HTTPException, Security
 from typing import List
 from auth.authentication_user import get_current_active_user
@@ -12,6 +12,9 @@ from ..models.products import (
 )
 from db.aurora import auroradb
 from sqlalchemy.orm import Session
+from ..models.filter import (
+    Filter
+)
 
 router = APIRouter()
 
@@ -224,3 +227,27 @@ async def get_products_by_sku_codes(
         return {"internal_response_code": 0, "message": "success", "data": products_list} if products_list else {"internal_response_code": 1, "message": "failed", "data": None} 
     except Exception:
         raise HTTPException(status_code=500, details="Something went wrong")
+
+@router.post(
+    "/v1/products/get_products_by_filter",
+    dependencies=[Security(get_current_active_user, scopes=["guest:read"])],
+)
+async def get_products_by_filter(
+    filters: Filter,
+    page: int = 1,
+    limit: int = 30,
+    sorting_method: Optional[str] = None,
+    db: Session = Depends(auroradb.get_db),
+):
+    try:
+        products_collection = ProductsCollection()
+        return await products_collection.get_products_by_filter(
+            page=page,
+            filters=filters,
+            sorting_method=sorting_method,
+            limit=limit,
+            db=db
+        )
+
+    except Exception:
+        raise HTTPException(status_code=500, detail="Something went wrong")
