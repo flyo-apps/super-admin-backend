@@ -5,7 +5,7 @@ from ..utils.random_number import (
     get_random_rating
 )
 import json
-from ..utils.constants import RECENTLY_VIEWED_PRODUCT
+from ..utils.constants import RECENTLY_VIEWED_PRODUCT, PRODUCTS_COL_RETURN_LIST
 from ..models.products import (
     ProductDeleteModel,
     ProductUpdateDescriptionModel,
@@ -25,6 +25,15 @@ from ..schemas.products import (
 from db.redis.redis_base import RedisBase
 from db.aurora.aurora_base import CRUDBase
 from sqlalchemy.orm import Session
+from ..models.filter import (
+    Filter
+)
+from warehouse.schemas.inventory import (
+    InventorySchema
+)
+from ..utils.products import (
+    get_product_filters_where_clause, get_product_sorting_clause
+)
 
 GET_MULTIPLE_PRODUCTS_THRESHOLD = 100
 
@@ -430,5 +439,40 @@ class ProductsCollection:
 
             products_list = self.model.get_all(db=db, where_clause=where_clause, limit=GET_MULTIPLE_PRODUCTS_THRESHOLD)
             return products_list
+        except Exception:
+            raise HTTPException(status_code=500, detail="Something went wrong")
+
+    async def get_products_by_filter(
+        self,
+        page: int,
+        limit: int,
+        sorting_method: str,
+        filters: Filter,
+        db: Session
+    ) -> any:
+        try:
+            if page == 1:
+                skip = 0
+            else:
+                skip = (page - 1)*limit
+
+            filters_dict = filters.dict(exclude_unset=True)
+            sorting_clause = await get_product_sorting_clause(sorting_method=sorting_method)
+            where_clause = await get_product_filters_where_clause(filters_dict)
+            where_clause = "(inventory.qty > 0 ) AND (sort_priority1 > 0) AND" + where_clause
+            data = self.model.get_all_with_single_join_and_sorting(
+                db=db,
+                where_clause=where_clause,
+                join_model=InventorySchema,
+                column_load_1=PRODUCTS_COL_RETURN_LIST,
+                sorting_method=sorting_clause,
+                skip=skip,
+                limit=limit
+            )
+
+            if len(data) <= 0 :
+                return {"internal_response_code": 1, "data": data}
+
+            return {"internal_response_code": 0, "data": data}
         except Exception:
             raise HTTPException(status_code=500, detail="Something went wrong")
