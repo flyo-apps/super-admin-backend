@@ -67,7 +67,7 @@ QUICK_FILTER_MAIN_KEY = "QUICK_FILTER"
 QUICK_BANNER_MAIN_KEY = "QUICK_BANNER"
 
 PRODUCTS_COL_RETURN_LIST = [
-    "code", "sku_code", "product_name", "discount", "mrp", "list_price", "brand", "media", "product_tag", "fine_fashion_tag", "category1"
+    ProductsSchema.code, ProductsSchema.sku_code, ProductsSchema.product_name, ProductsSchema.discount, ProductsSchema.mrp, ProductsSchema.list_price, ProductsSchema.brand, ProductsSchema.media, ProductsSchema.product_tag, ProductsSchema.fine_fashion_tag, ProductsSchema.category1
 ]
 
 SORTING_LIST = [
