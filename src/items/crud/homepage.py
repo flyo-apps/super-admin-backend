@@ -6,13 +6,14 @@ from .brands import BrandsCollection
 from .products import ProductsCollection
 from .stories import StoriesCollection
 from .blogs import BlogsCollection
+from .multi_stories import MultiStoriesCollection
 import json
 from .homepage_group import HomepageGroupCollection
 from .brands_collection import BrandsCollectionCollection
 from .product_collection import ProductCollectionCollection
 from influencer.crud.store import InfluencerStoreCollection
 from ..utils.constants import (
-    HOMEPAGE_COL_RETURN, VALID_COMPONENT_TYPES, VALID_COMPONENT_ELEMENTS_TYPE, VALID_ADD_TO_LIST, VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES
+    HOMEPAGE_COL_RETURN, VALID_COMPONENT_TYPES, VALID_COMPONENT_ELEMENTS_TYPE, VALID_ADD_TO_LIST, VALID_HOMEPAGE_COMPONENT_NAMES_FOR_PAGES, VALID_REDIRECTION_ELEMENT_TYPE
 )
 from ..models.homepage import (
     HomePageDeleteModel,
@@ -285,6 +286,12 @@ class HomePageCollection:
                 component_details['image'] = component_details_full.image
                 component_details['cover_image'] = component_details_full.cover_image
                 component_details['influencer_handle'] = component_details_full.influencer_handle
+            elif component_elements_type == "MultiStory":
+                component_details['code'] = component_details_full.code
+                component_details['description'] = component_details_full.description
+                component_details['story_name'] = component_details_full.story_name
+                component_details['story_logo'] = component_details_full.story_logo
+                component_details['stories'] = component_details_full.stories
             else:
                 component_details = component_details_full.dict()
 
@@ -307,10 +314,16 @@ class HomePageCollection:
                 filter_details["title"] = component_elements
                 return filter_details
             if component_elements_type == "Redirection":
-                if filter_details == None:
+                if not ("filters" in filter_details and filter_details["filters"] and "redirection_type" in filter_details["filters"] and filter_details["filters"]["redirection_type"]):
                     return None
-                filter_details["code"] = component_elements
-                return filter_details 
+                if filter_details["filters"]["redirection_type"].lower() not in VALID_REDIRECTION_ELEMENT_TYPE:
+                    return None
+                component_details = {}
+                component_details["code"] = component_elements
+                component_details["redirection_type"] = filter_details["filters"]["redirection_type"].lower()
+                if "redirection_code" in filter_details["filters"] and filter_details["filters"]["redirection_code"]:
+                    component_details["redirection_code"] = filter_details["filters"]["redirection_code"]
+                return component_details
             elif component_elements_type == "Product":
                 products_collection = ProductsCollection()
                 component_details_full = await products_collection.get_product_by_sku_code(db=db, sku_code=component_elements)
@@ -342,6 +355,9 @@ class HomePageCollection:
             elif component_elements_type == "IfStore":
                 influencer_store_collection = InfluencerStoreCollection()
                 component_details_full = await influencer_store_collection.get_store(db=db, store_code=component_elements)
+            elif component_elements_type == "MultiStory":
+                multi_stories_collection = MultiStoriesCollection()
+                component_details_full = await multi_stories_collection.get_story_by_code(db=db, story_code=component_elements)
             else:
                 component_details_full = {}
 
@@ -396,6 +412,9 @@ class HomePageCollection:
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             elif component_elements_type == "Redirection":
+                component_details = [component for component in component_list if component['code'] == component_elements]
+
+            elif component_elements_type == "MultiStory":
                 component_details = [component for component in component_list if component['code'] == component_elements]
 
             return component_details[0] if component_details else None

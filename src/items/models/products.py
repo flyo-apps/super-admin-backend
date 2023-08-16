@@ -8,6 +8,11 @@ class ProductQNAModel(BaseModel):
     answer: str
     created_at: Optional[str]
 
+class ProductDetailsModel(BaseModel):
+    metal_and_purity: Optional[List[dict]] = None
+    dimension_and_weight: Optional[List[dict]] = None
+    diamonds_and_gemstones: Optional[List[dict]] = None
+
 class ProductCreateBaseModel(BaseModel):
     code : str
     sku_code : str
@@ -127,6 +132,10 @@ class ProductCreateBaseModel(BaseModel):
     h1_tag: Optional[str] = None
     qnas: Optional[List[ProductQNAModel]] = None
     complete_the_look_skus: Optional[List[str]] = None
+    certificate_image: Optional[str] = None
+    product_details: Optional[ProductDetailsModel] = None
+    price_breakup: Optional[List[List]] = None
+    people_also_explored: Optional[List[dict]] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -217,6 +226,10 @@ class ProductUpdateBaseModel(BaseModel):
     pick_pack_time: Optional[int] = None
     qnas: Optional[List[ProductQNAModel]] = None
     complete_the_look_skus: Optional[List[str]] = None
+    certificate_image: Optional[str] = None
+    product_details: Optional[ProductDetailsModel] = None
+    price_breakup: Optional[List[List]] = None
+    people_also_explored: Optional[List[dict]] = None
 
 
 class ProductUpdateModel(ProductUpdateBaseModel):

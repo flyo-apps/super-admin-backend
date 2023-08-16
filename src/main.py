@@ -19,8 +19,15 @@ from items.routers import (
     brands_collection,
     usecases,
     stories,
+    multi_stories,
     quick_filters,
-    product_collection
+    quick_banners,
+    product_collection,
+    rate_breakup
+)
+
+from influencer.routers import (
+    store
 )
 
 from db.mongo.mongo_adaptor import (
@@ -105,6 +112,7 @@ app.include_router(auth.router, tags=["Auth"])
 # ITEMS ROUTERS
 app.include_router(shipping_data.router, tags=["Shipping Data"])
 app.include_router(products.router, tags=["Products"])
+app.include_router(rate_breakup.router, tags=["Rate Breakup"]),
 app.include_router(product_variants.router, tags=["Product Variants"])
 app.include_router(product_reviews.router, tags=["Product Reviews"])
 app.include_router(blogs.router, tags=["Blogs"])
@@ -114,11 +122,16 @@ app.include_router(brands_collection.router, tags=["Brands Collection"])
 app.include_router(homepage.router, tags=["Homepage"])
 app.include_router(usecases.router, tags=["Usecases"])
 app.include_router(stories.router, tags=["Stories"])
+app.include_router(multi_stories.router, tags=["Multi Stories"])
 app.include_router(quick_filters.router, tags=["Quick Filters"])
+app.include_router(quick_banners.router, tags=["Quick Banners"])
 app.include_router(product_collection.router, tags=["Product Collection"])
 
 # Coupons ROUTERS
 app.include_router(coupons.router, tags=["Coupons"])
+
+# Influencer ROUTERS
+app.include_router(store.router, tags=["Influencer Store"])
 
 # ASSET METADATA ROUTES
 app.include_router(asset_metadata.router, tags=["Asset Metadata"])
