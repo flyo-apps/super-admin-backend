@@ -9,6 +9,7 @@ class MultiStoriesSchema(Base):
     story_logo = Column(String)
     description = Column(String)
     stories = Column(ARRAY(JSON))
+    chip_data = Column(ARRAY(JSON))
     created_at = Column(DATETIME)
     is_updated = Column(Boolean)
     updated_at = Column(DATETIME)
