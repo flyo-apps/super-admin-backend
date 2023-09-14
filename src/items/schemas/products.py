@@ -7,6 +7,7 @@ class ProductsSchema(Base):
 
     code = Column(String, primary_key=True, index=True)
     sku_code = Column(String, index=True)
+    product_code = Column(String)
     product_name = Column(String)
     brand = Column(String)
     brand_code = Column(String)
