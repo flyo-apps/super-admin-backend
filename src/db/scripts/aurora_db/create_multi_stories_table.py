@@ -8,6 +8,7 @@ def create_multi_stories_table():
             story_logo TEXT NOT NULL,
             description TEXT,
             stories JSON[],
+            chip_data JSON[],
             created_at TIMESTAMP WITH TIME ZONE,
             is_updated BOOLEAN,
             updated_at TIMESTAMP WITH TIME ZONE,
