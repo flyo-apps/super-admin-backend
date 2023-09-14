@@ -1,13 +1,13 @@
 import aurora_db
 
-def create_new_blogs_table():
+def create_blog_for_listing_page_table():
     commands = """
-        CREATE TABLE new_blogs (
+        CREATE TABLE blog_for_listing_page (
             code TEXT PRIMARY KEY NOT NULL,
-            screen_filter JSON,
-            content TEXT NOT NULL,
-            content_summary TEXT NOT NULL,
+            image TEXT NOT NULL,
             rank SMALLINT NOT NULL,
+            screen_filter JSON NOT NULL,
+            blog_code TEXT NOT NULL,
             created_at TIMESTAMP WITH TIME ZONE,
             is_updated BOOLEAN,
             updated_at TIMESTAMP WITH TIME ZONE,
@@ -20,4 +20,4 @@ def create_new_blogs_table():
 
 
 if __name__ == '__main__':
-    create_new_blogs_table()
+    create_blog_for_listing_page_table()

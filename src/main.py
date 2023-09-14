@@ -23,7 +23,8 @@ from items.routers import (
     quick_filters,
     quick_banners,
     product_collection,
-    rate_breakup
+    rate_breakup,
+    blog_for_listing_page
 )
 
 from influencer.routers import (
@@ -110,6 +111,7 @@ app.add_event_handler("shutdown", close_mongo_connection)
 app.include_router(auth.router, tags=["Auth"])
 
 # ITEMS ROUTERS
+app.include_router(blog_for_listing_page.router, tags=["Blog for Listing Page"])
 app.include_router(shipping_data.router, tags=["Shipping Data"])
 app.include_router(products.router, tags=["Products"])
 app.include_router(rate_breakup.router, tags=["Rate Breakup"]),
