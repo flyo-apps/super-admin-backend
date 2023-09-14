@@ -16,6 +16,7 @@ class ProductDetailsModel(BaseModel):
 class ProductCreateBaseModel(BaseModel):
     code : str
     sku_code : str
+    product_code : str
     product_name : str
     brand : str
     upc : Optional[str] = ""
@@ -148,6 +149,7 @@ class ProductUpdateBaseModel(BaseModel):
     code : str
     sku_code : str
     product_name : Optional[str] 
+    product_code : Optional[str]
     brand : Optional[str] 
     upc : Optional[str] 
     hsn : Optional[str] 

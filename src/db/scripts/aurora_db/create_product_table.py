@@ -5,6 +5,7 @@ def create_product_table():
         CREATE TABLE products (
             code TEXT PRIMARY KEY NOT NULL,
             sku_code TEXT NOT NULL,
+            product_code TEXT,
             product_name TEXT NOT NULL,
             brand TEXT NOT NULL,
             brand_code TEXT,
