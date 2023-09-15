@@ -120,6 +120,7 @@ class ProductCreateBaseModel(BaseModel):
     pickup_city: Optional[str] = None
     finish_and_design: Optional[str] = None
     brand_description_images: Optional[List[str]] = None
+    guide_images: Optional[List[str]] = None
     brand_offer_strip: Optional[List[dict]] = None
     style_note: Optional[str] = None
     design_type: Optional[str] = None
@@ -218,6 +219,7 @@ class ProductUpdateBaseModel(BaseModel):
     production_strategy: Optional[str] = None
     finish_and_design: Optional[str] = None
     brand_description_images: Optional[List[str]] = None
+    guide_images: Optional[List[str]] = None
     brand_offer_strip: Optional[List[dict]] = None
     style_note: Optional[str] = None
     design_type: Optional[str] = None
