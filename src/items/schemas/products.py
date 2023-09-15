@@ -56,6 +56,7 @@ class ProductsSchema(Base):
     virtual_try_on = Column(Boolean)
     description = Column(String)
     description_images = Column(ARRAY(String))
+    guide_images = Column(ARRAY(String))
     care_instruction = Column(String)
     disclaimer = Column(String)
     year = Column(Integer)

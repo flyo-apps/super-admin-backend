@@ -115,6 +115,7 @@ def create_product_table():
             pickup_city TEXT,
             finish_and_design TEXT,
             brand_description_images TEXT[],
+            guide_images TEXT[],
             brand_offer_strip JSON[],
             style_note TEXT,
             design_type TEXT,
