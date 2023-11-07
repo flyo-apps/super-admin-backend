@@ -138,6 +138,21 @@ class ProductCreateBaseModel(BaseModel):
     product_details: Optional[ProductDetailsModel] = None
     price_breakup: Optional[List[List]] = None
     people_also_explored: Optional[List[dict]] = None
+    guide_images: Optional[List[str]] = None
+    estimated_delivery_text: Optional[str] = None
+    complete_the_look: Optional[List[str]] = None
+    finest_quality: Optional[List[str]] = None
+    craftsmanship: Optional[str] = None
+    testimonial: Optional[List[str]] = None
+    why_we_stand_out :Optional[List[dict]] = None
+    faqs :Optional[List[dict]] = None
+    length: Optional[float] = None
+    width: Optional[float] = None
+    breadth: Optional[float] = None
+    length_unit: Optional[str] = None
+    width_unit: Optional[str] = None
+    breadth_unit: Optional[str] = None
+    closure: Optional[str] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -234,7 +249,21 @@ class ProductUpdateBaseModel(BaseModel):
     product_details: Optional[ProductDetailsModel] = None
     price_breakup: Optional[List[List]] = None
     people_also_explored: Optional[List[dict]] = None
-
+    guide_images: Optional[List[str]] = None
+    estimated_delivery_text: Optional[str] = None
+    complete_the_look: Optional[List[str]] = None
+    finest_quality: Optional[List[str]] = None
+    craftsmanship: Optional[str] = None
+    testimonial: Optional[List[str]] = None
+    why_we_stand_out :Optional[List[dict]] = None
+    faqs :Optional[List[dict]] = None
+    length: Optional[float] = None
+    width: Optional[float] = None
+    breadth: Optional[float] = None
+    length_unit: Optional[str] = None
+    width_unit: Optional[str] = None
+    breadth_unit: Optional[str] = None
+    closure: Optional[str] = None
 
 class ProductUpdateModel(ProductUpdateBaseModel):
     is_updated : Optional[bool] = True
