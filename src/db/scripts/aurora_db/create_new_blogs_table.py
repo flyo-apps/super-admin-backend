@@ -7,7 +7,7 @@ def create_new_blogs_table():
             screen_filter JSON,
             content TEXT NOT NULL,
             content_summary TEXT NOT NULL,
-            rank SMALLINT NOT NULL
+            rank SMALLINT NOT NULL,
             created_at TIMESTAMP WITH TIME ZONE,
             is_updated BOOLEAN,
             updated_at TIMESTAMP WITH TIME ZONE,

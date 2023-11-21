@@ -16,6 +16,7 @@ class ProductDetailsModel(BaseModel):
 class ProductCreateBaseModel(BaseModel):
     code : str
     sku_code : str
+    product_code : str
     product_name : str
     brand : str
     upc : Optional[str] = ""
@@ -119,6 +120,7 @@ class ProductCreateBaseModel(BaseModel):
     pickup_city: Optional[str] = None
     finish_and_design: Optional[str] = None
     brand_description_images: Optional[List[str]] = None
+    guide_images: Optional[List[str]] = None
     brand_offer_strip: Optional[List[dict]] = None
     style_note: Optional[str] = None
     design_type: Optional[str] = None
@@ -136,6 +138,20 @@ class ProductCreateBaseModel(BaseModel):
     product_details: Optional[ProductDetailsModel] = None
     price_breakup: Optional[List[List]] = None
     people_also_explored: Optional[List[dict]] = None
+    estimated_delivery_text: Optional[str] = None
+    complete_the_look: Optional[List[str]] = None
+    finest_quality: Optional[List[str]] = None
+    craftsmanship: Optional[str] = None
+    testimonial: Optional[List[str]] = None
+    why_we_stand_out :Optional[List[dict]] = None
+    faqs :Optional[List[dict]] = None
+    length: Optional[float] = None
+    width: Optional[float] = None
+    breadth: Optional[float] = None
+    length_unit: Optional[str] = None
+    width_unit: Optional[str] = None
+    breadth_unit: Optional[str] = None
+    closure: Optional[str] = None
 
 class ProductCreateModel(ProductCreateBaseModel):
     created_at : Optional[datetime] = datetime.now()
@@ -148,6 +164,7 @@ class ProductUpdateBaseModel(BaseModel):
     code : str
     sku_code : str
     product_name : Optional[str] 
+    product_code : Optional[str]
     brand : Optional[str] 
     upc : Optional[str] 
     hsn : Optional[str] 
@@ -216,6 +233,7 @@ class ProductUpdateBaseModel(BaseModel):
     production_strategy: Optional[str] = None
     finish_and_design: Optional[str] = None
     brand_description_images: Optional[List[str]] = None
+    guide_images: Optional[List[str]] = None
     brand_offer_strip: Optional[List[dict]] = None
     style_note: Optional[str] = None
     design_type: Optional[str] = None
@@ -230,7 +248,20 @@ class ProductUpdateBaseModel(BaseModel):
     product_details: Optional[ProductDetailsModel] = None
     price_breakup: Optional[List[List]] = None
     people_also_explored: Optional[List[dict]] = None
-
+    estimated_delivery_text: Optional[str] = None
+    complete_the_look: Optional[List[str]] = None
+    finest_quality: Optional[List[str]] = None
+    craftsmanship: Optional[str] = None
+    testimonial: Optional[List[str]] = None
+    why_we_stand_out :Optional[List[dict]] = None
+    faqs :Optional[List[dict]] = None
+    length: Optional[float] = None
+    width: Optional[float] = None
+    breadth: Optional[float] = None
+    length_unit: Optional[str] = None
+    width_unit: Optional[str] = None
+    breadth_unit: Optional[str] = None
+    closure: Optional[str] = None
 
 class ProductUpdateModel(ProductUpdateBaseModel):
     is_updated : Optional[bool] = True
@@ -257,6 +288,20 @@ class ProductUpdateStateBaseModel(BaseModel):
     manufacturer_name: Optional[str]
     manufacturer_address: Optional[str] 
     manufacturer_pincode: Optional[str]
+    estimated_delivery_text: Optional[str] = None
+    complete_the_look: Optional[List[str]] = None
+    finest_quality: Optional[List[str]] = None
+    craftsmanship: Optional[str] = None
+    testimonial: Optional[List[str]] = None
+    why_we_stand_out :Optional[List[dict]] = None
+    faqs :Optional[List[dict]] = None
+    length: Optional[float] = None
+    width: Optional[float] = None
+    breadth: Optional[float] = None
+    length_unit: Optional[str] = None
+    width_unit: Optional[str] = None
+    breadth_unit: Optional[str] = None
+    closure: Optional[str] = None
 
 class ProductUpdateStateModel(ProductUpdateStateBaseModel):
     is_updated : Optional[bool] = True

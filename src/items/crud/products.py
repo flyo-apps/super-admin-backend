@@ -101,7 +101,7 @@ class ProductsCollection:
             if product == None:
                 return {"internal_response_code": 1, "sku_code": product_update_details.sku_code, "message": "Product not found"}
 
-            product_update = ProductUpdateModel(**product_update_details.dict(exclude_unset=True, exclude={'sku_code'}))
+            product_update = ProductUpdateModel(**product_update_details.dict(exclude_unset=True))
             product_update.is_updated = True
             product_update.updated_at = datetime.now()
             

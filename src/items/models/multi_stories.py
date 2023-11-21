@@ -8,6 +8,7 @@ class MultiStoryCreateBaseModel(BaseModel):
     story_logo: str
     description: Optional[str] = None
     stories: List[dict]
+    chip_data: Optional[List[dict]] = None
 
 class MultiStoryCreateModel(MultiStoryCreateBaseModel):
     created_at :  datetime = datetime.now()
@@ -22,6 +23,8 @@ class MultiStoryUpdateBaseModel(BaseModel):
     story_logo: str
     description: Optional[str] = None
     stories: Optional[List[dict]] = None
+    chip_data: Optional[List[dict]] = None
+
 
 class MultiStoryUpdateModel(MultiStoryUpdateBaseModel):
     is_updated : bool = False
