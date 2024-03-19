@@ -247,6 +247,7 @@ class HomePageCollection:
                 component_details['list_price'] = component_details_full["data"].list_price
                 component_details['category1'] = component_details_full["data"].category1
                 component_details['product_type1'] = component_details_full["data"].product_type1
+                component_details['product_tag'] = component_details_full["data"].product_tag
             elif component_elements_type == "Refer":
                 component_details = component_details_full
             elif component_elements_type == "Homepage":
