@@ -41,7 +41,7 @@ HOMEPAGE_COL_RETURN = [
 
 VALID_COMPONENT_TYPES = ["FWBanner", "FWImageCarousel", "FWITRCarousel", "FWITLCarousel", "BrandCard1", "BrandCard2", "CollectionCard1", "CollectionCard2", 
     "Product", "UsecaseList6", "ITOverlayCircle", "ITOverlaySquare", "ITOverlayCircle6", "CircleList", "FeaturedList4", "FilterChipList", "FilterImageList", 
-    "ChipListSingle", "ChipListMulti", "VerticalList", "SplitMainBanners","Collage2","Collage3","Collage4","Collage5","Collage6","MultiSection","LookBook"
+    "ChipListSingle", "ChipListMulti", "VerticalList", "SplitMainBanners","Collage2","Collage3","Collage4","Collage5","Collage6","MultiSection","LookBook", "VideoBanner","ReelsCard"
 ]
 
 VALID_COMPONENT_ELEMENTS_TYPE = [
